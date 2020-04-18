@@ -51,7 +51,7 @@ static RtpSession* create_rtp_recv(const char *addr_desc, const int port,
 
 	session = rtp_session_new(RTP_SESSION_RECVONLY);
 	rtp_session_set_scheduling_mode(session, FALSE);
-	rtp_session_set_blocking_mode(session, FALSE);
+	rtp_session_set_blocking_mode(session, TRUE);
 	rtp_session_set_local_addr(session, addr_desc, port, -1);
 	rtp_session_set_connected_mode(session, FALSE);
 	rtp_session_enable_adaptive_jitter_compensation(session, TRUE);
@@ -125,7 +125,7 @@ static int play_one_frame(void *packet,
 #endif
 
 #ifdef USER_PORTAUDIO
-	err = Pa_WriteStream(stream, pcm, f);
+	err = Pa_WriteStream(stream, pcm, r);
 	if (err != paNoError)
 	{
 		aerror("PaWriteStream", err);
