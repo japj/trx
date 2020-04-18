@@ -7,15 +7,16 @@ INSTALL ?= install
 PREFIX ?= /usr/local
 BINDIR ?= $(PREFIX)/bin
 
-CFLAGS += -MMD -Wall 
+CFLAGS += -MMD -Wall -DUSE_PORTAUDIO
 CFLAGS += -I/usr/local/Cellar/ortp/4.3.2/libexec/include/
 
 #LDLIBS_ASOUND ?= -lasound
 LDLIBS_OPUS ?= -lopus
 LDLIBS_ORTP ?= -lortp 
 LDLIBS_ORTP += /usr/local/Cellar/ortp/4.3.2/libexec/lib/libbctoolbox.a
+LDLIBS_PORTAUDIO ?= -lportaudio
 
-LDLIBS += $(LDLIBS_ASOUND) $(LDLIBS_OPUS) $(LDLIBS_ORTP)
+LDLIBS += $(LDLIBS_ASOUND) $(LDLIBS_OPUS) $(LDLIBS_ORTP) $(LDLIBS_PORTAUDIO)
 
 .PHONY:		all install dist clean
 

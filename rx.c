@@ -19,8 +19,11 @@
 
 #include <netdb.h>
 #include <string.h>
-#ifdef USE_AsLSA
+#ifdef USE_ALSA
 #include <alsa/asoundlib.h>
+#endif
+#ifdef USE_PORTAUDIO
+#include "portaudio.h"
 #endif
 #include <opus/opus.h>
 #include <ortp/ortp.h>
@@ -181,6 +184,38 @@ static void usage(FILE *fd)
 	fprintf(fd, "  -v <n>      Verbosity level (default %d)\n",
 		DEFAULT_VERBOSE);
 	fprintf(fd, "  -D <file>   Run as a daemon, writing process ID to the given file\n");
+
+#ifdef USE_PORTAUDIO
+	PaError err;
+	err = Pa_Initialize();
+	if (err != paNoError)
+	{
+		fprintf(fd,"PortAudio error: %s \n", Pa_GetErrorText(err));
+		return;
+	}
+
+	int numDevices = Pa_GetDeviceCount();
+	if (numDevices < 0)
+	{
+		fprintf(fd,"ERROR: Pa_GetDeviceCount returned 0x%x\n", numDevices);
+	}
+
+	fprintf(fd,"\nPortAudio Device Information:\n");
+
+	const PaDeviceInfo *deviceInfo;
+	for (int i=0; i<numDevices;i++)
+	{
+		deviceInfo = Pa_GetDeviceInfo(i);
+		fprintf(fd,"Pa Device(%d), name(%s)\n", i, deviceInfo->name);
+	}
+
+	err = Pa_Terminate();
+	if (err != paNoError)
+	{
+		fprintf(fd,"PortAudio error: %s \n", Pa_GetErrorText(err));
+		return;
+	}
+#endif
 }
 
 int main(int argc, char *argv[])
