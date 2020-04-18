@@ -304,6 +304,16 @@ int main(int argc, char *argv[])
 	if (set_alsa_sw(snd) == -1)
 		return -1;
 #endif
+#ifdef USE_PORTAUDIO
+
+	r = Pa_Initialize();
+	if (r != paNoError)
+	{
+		printf("PortAudio error: %s \n", Pa_GetErrorText(r));
+		return -1;
+	}
+
+#endif
 
 	if (pid)
 		go_daemon(pid);
@@ -316,6 +326,9 @@ int main(int argc, char *argv[])
 #ifdef USE_ALSA
 	if (snd_pcm_close(snd) < 0)
 		abort();
+#endif
+#ifdef USE_PORTAUDIO
+	Pa_Terminate();
 #endif
 
 	rtp_session_destroy(session);
