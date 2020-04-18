@@ -111,17 +111,40 @@ int set_alsa_sw(snd_pcm_t *pcm)
 #endif
 
 #ifdef USE_PORTAUDIO
-int open_pa_stream(PaStream **stream,
-		unsigned int rate, unsigned int channels,
-		unsigned int jitter)
+int open_pa_writestream(PaStream **stream,
+		unsigned int rate, unsigned int channels)
 {
+	//unsigned int framesPerBuffer;
+	//framesPerBuffer = (rate / 1000) * 2;
 	PaError err;
 	err = Pa_OpenDefaultStream(	stream,
-								1, // 1 input channel
+								channels, // 1 input channel
 								0, // no output
 								paInt16, // should be similar to also SND_PCM_FORMAT_S16, should also be interleaved);				
 								rate,
-								jitter, // frames per buffer
+								256, //framesPerBuffer, // frames per buffer
+								NULL, // open stream in blocking mode
+								NULL);
+	CHK("Pa_OpenDefaultStream", err);
+
+	return 0;
+}
+#endif
+
+
+#ifdef USE_PORTAUDIO
+int open_pa_readstream(PaStream **stream,
+		unsigned int rate, unsigned int channels)
+{
+	//unsigned int framesPerBuffer;
+	//framesPerBuffer = (rate / 1000) * 2;
+	PaError err;
+	err = Pa_OpenDefaultStream(	stream,
+								0, // no input
+								channels, // output channeles
+								paInt16, // should be similar to also SND_PCM_FORMAT_S16, should also be interleaved);				
+								rate,
+								256, //framesPerBuffer, // frames per buffer
 								NULL, // open stream in blocking mode
 								NULL);
 	CHK("Pa_OpenDefaultStream", err);

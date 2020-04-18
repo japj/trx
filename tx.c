@@ -61,10 +61,21 @@ static RtpSession* create_rtp_send(const char *addr_desc, const int port)
 	return session;
 }
 
+
+static int send_one_frame(
 #ifdef USE_ALSA
-static int send_one_frame(snd_pcm_t *snd,
+		snd_pcm_t *snd,
+#endif
+#ifdef USE_PORTAUDIO
+		PaStream *stream,
+#endif
 		const unsigned int channels,
+#ifdef USE_ALSA
 		const snd_pcm_uframes_t samples,
+#endif
+#ifdef USE_PORTAUDIO
+		const long samples,
+#endif
 		OpusEncoder *encoder,
 		const size_t bytes_per_frame,
 		const unsigned int ts_per_frame,
@@ -73,12 +84,18 @@ static int send_one_frame(snd_pcm_t *snd,
 	int16_t *pcm;
 	void *packet;
 	ssize_t z;
+#ifdef USE_ALSA
 	snd_pcm_sframes_t f;
+#endif
+#ifdef USE_PORTAUDIO
+	PaError err;;
+#endif
 	static unsigned int ts = 0;
 
 	pcm = alloca(sizeof(*pcm) * samples * channels);
 	packet = alloca(bytes_per_frame);
 
+#ifdef USE_ALSA
 	f = snd_pcm_readi(snd, pcm, samples);
 	if (f < 0) {
 		if (f == -ESTRPIPE)
@@ -91,15 +108,27 @@ static int send_one_frame(snd_pcm_t *snd,
 		}
 		return 0;
 	}
+#endif
+#ifdef USE_PORTAUDIO
+	err = Pa_ReadStream(stream, pcm, samples);
+#endif
 
 	/* Opus encoder requires a complete frame, so if we xrun
 	 * mid-frame then we discard the incomplete audio. The next
 	 * read will catch the error condition and recover */
-
+#ifdef USE_ALSA
 	if (f < samples) {
 		fprintf(stderr, "Short read, %ld\n", f);
 		return 0;
 	}
+#endif
+#ifdef USE_PORTAUDIO
+	if (err != paNoError)
+	{
+		fprintf(stderr,"PortAudio error: %s \n", Pa_GetErrorText(err));
+		return 0;
+	}
+#endif
 
 	z = opus_encode(encoder, pcm, samples, packet, bytes_per_frame);
 	if (z < 0) {
@@ -112,12 +141,21 @@ static int send_one_frame(snd_pcm_t *snd,
 
 	return 0;
 }
-#endif
 
+static int run_tx(
 #ifdef USE_ALSA
-static int run_tx(snd_pcm_t *snd,
+	    snd_pcm_t *snd,
+#endif
+#ifdef USE_PORTAUDIO
+		PaStream *snd, // snd => stream
+#endif
 		const unsigned int channels,
+#ifdef USE_ALSA
 		const snd_pcm_uframes_t frame,
+#endif
+#ifdef USE_PORTAUDIO
+		long frame,
+#endif
 		OpusEncoder *encoder,
 		const size_t bytes_per_frame,
 		const unsigned int ts_per_frame,
@@ -136,7 +174,6 @@ static int run_tx(snd_pcm_t *snd,
 			fputc('>', stderr);
 	}
 }
-#endif
 
 static void usage(FILE *fd)
 {
@@ -181,6 +218,10 @@ int main(int argc, char *argv[])
 	unsigned int ts_per_frame;
 #ifdef USE_ALSA
 	snd_pcm_t *snd;
+#endif
+#ifdef USE_PORTAUDIO
+	PaStream *stream;
+	PaError err;
 #endif
 	OpusEncoder *encoder;
 	RtpSession *session;
@@ -276,6 +317,30 @@ int main(int argc, char *argv[])
 		return -1;
 #endif
 
+#ifdef USE_PORTAUDIO
+	err = Pa_Initialize();
+	if (err != paNoError)
+	{
+		printf("PortAudio error: %s \n", Pa_GetErrorText(err));
+		return -1;
+	}
+
+	// TODO buffer size?
+	err = open_pa_readstream(&stream, rate, channels);
+	if (err != paNoError)
+	{
+		aerror("open_pa_stream", err);
+		return -1;
+	}
+
+	err = Pa_StartStream(stream);
+	if (err != paNoError)
+	{
+		aerror("open_pa_stream", err);
+		return -1;
+	}
+#endif
+
 	if (pid)
 		go_daemon(pid);
 
@@ -286,6 +351,29 @@ int main(int argc, char *argv[])
 
 	if (snd_pcm_close(snd) < 0)
 		abort();
+#endif
+
+#ifdef USE_PORTAUDIO
+	r = run_tx(stream, channels, frame, encoder, bytes_per_frame,
+		ts_per_frame, session);
+#endif
+
+#ifdef USE_PORTAUDIO
+	err = Pa_StopStream(stream);
+	if (err != paNoError)
+	{
+		aerror("open_pa_stream", err);
+		return -1;
+	}
+	
+	err = Pa_CloseStream(stream);
+	if (err != paNoError)
+	{
+		aerror("open_pa_stream", err);
+		return -1;
+	}
+
+	Pa_Terminate();
 #endif
 
 	rtp_session_destroy(session);

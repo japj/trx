@@ -90,7 +90,7 @@ static int play_one_frame(void *packet,
 {
 	int r;
 	int16_t *pcm;
-	// why samples = 1920?
+	// why samples = 1920? is it 2*960 (960 is max frame size opus, 2 for stereo)
 #ifdef USE_ALSA
 	snd_pcm_sframes_t f, samples = 1920;
 #endif
@@ -344,7 +344,7 @@ int main(int argc, char *argv[])
 	}
 
 	// TODO buffer size?
-	err = open_pa_stream(&stream, rate, channels, jitter);
+	err = open_pa_writestream(&stream, rate, channels);
 	if (err != paNoError)
 	{
 		aerror("open_pa_stream", err);
