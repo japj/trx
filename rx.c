@@ -224,6 +224,10 @@ int main(int argc, char *argv[])
 #ifdef USE_ALSA
 	snd_pcm_t *snd;
 #endif
+#ifdef USE_PORTAUDIO
+	PaStream *stream;
+	PaError err;
+#endif
 	OpusDecoder *decoder;
 	RtpSession *session;
 
@@ -304,15 +308,29 @@ int main(int argc, char *argv[])
 	if (set_alsa_sw(snd) == -1)
 		return -1;
 #endif
-#ifdef USE_PORTAUDIO
 
-	r = Pa_Initialize();
-	if (r != paNoError)
+#ifdef USE_PORTAUDIO
+	err = Pa_Initialize();
+	if (err != paNoError)
 	{
-		printf("PortAudio error: %s \n", Pa_GetErrorText(r));
+		printf("PortAudio error: %s \n", Pa_GetErrorText(err));
 		return -1;
 	}
 
+	// TODO buffer size?
+	err = open_pa_stream(&stream, rate, channels, jitter);
+	if (err != paNoError)
+	{
+		aerror("open_pa_stream", err);
+		return -1;
+	}
+
+	err = Pa_StartStream(stream);
+	if (err != paNoError)
+	{
+		aerror("open_pa_stream", err);
+		return -1;
+	}
 #endif
 
 	if (pid)
@@ -323,11 +341,30 @@ int main(int argc, char *argv[])
 	r = run_rx(session, decoder, snd, channels, rate);
 #endif
 
+#ifdef USE_PORTAUDIO
+	//loop
+#endif
+
 #ifdef USE_ALSA
 	if (snd_pcm_close(snd) < 0)
 		abort();
 #endif
+
 #ifdef USE_PORTAUDIO
+	err = Pa_StopStream(stream);
+	if (err != paNoError)
+	{
+		aerror("open_pa_stream", err);
+		return -1;
+	}
+	
+	err = Pa_CloseStream(stream);
+	if (err != paNoError)
+	{
+		aerror("open_pa_stream", err);
+		return -1;
+	}
+
 	Pa_Terminate();
 #endif
 

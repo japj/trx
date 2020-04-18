@@ -21,6 +21,9 @@
 #ifdef USE_ALSA
 #include <alsa/asoundlib.h>
 #endif
+#ifdef USE_PORTAUDIO
+#include "portaudio.h"
+#endif
 
 #define CHK(call, r) { \
 	if (r < 0) { \
@@ -35,6 +38,9 @@ void aerror(const char *msg, int r)
 	fputs(": ", stderr);
 #ifdef USE_ALSA
 	fputs(snd_strerror(r), stderr);
+#endif
+#ifdef USE_PORTAUDIO
+	fputs(Pa_GetErrorText(r), stderr);
 #endif
 	fputc('\n', stderr);
 }
@@ -101,5 +107,25 @@ int set_alsa_sw(snd_pcm_t *pcm)
 
 	return 0;
 
+}
+#endif
+
+#ifdef USE_PORTAUDIO
+int open_pa_stream(PaStream **stream,
+		unsigned int rate, unsigned int channels,
+		unsigned int jitter)
+{
+	PaError err;
+	err = Pa_OpenDefaultStream(	stream,
+								1, // 1 input channel
+								0, // no output
+								paInt16, // should be similar to also SND_PCM_FORMAT_S16, should also be interleaved);				
+								rate,
+								jitter, // frames per buffer
+								NULL, // open stream in blocking mode
+								NULL);
+	CHK("Pa_OpenDefaultStream", err);
+
+	return 0;
 }
 #endif

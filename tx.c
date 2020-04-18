@@ -22,6 +22,9 @@
 #ifdef USE_ALSA
 #include <alsa/asoundlib.h>
 #endif
+#ifdef USE_PORTAUDIO
+#include "portaudio.h"
+#endif
 #include <opus/opus.h>
 #include <ortp/ortp.h>
 #include <sys/socket.h>

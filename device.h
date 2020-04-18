@@ -29,4 +29,10 @@ int set_alsa_hw(snd_pcm_t *pcm,
 int set_alsa_sw(snd_pcm_t *pcm);
 #endif
 
+#ifdef USE_PORTAUDIO
+int open_pa_stream(PaStream **stream,
+		unsigned int rate, unsigned int channels,
+		unsigned int jitter);
+#endif
+
 #endif
