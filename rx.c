@@ -77,16 +77,26 @@ static RtpSession* create_rtp_recv(const char *addr_desc, const int port,
 	return session;
 }
 
-#ifdef USE_ALSA
 static int play_one_frame(void *packet,
 		size_t len,
 		OpusDecoder *decoder,
+#ifdef USE_ALSA
 		snd_pcm_t *snd,
+#endif
+#ifdef USE_PORTAUDIO
+		PaStream *snd, // snd => stream
+#endif
 		const unsigned int channels)
 {
 	int r;
 	int16_t *pcm;
+	// why samples = 1920?
+#ifdef USE_ALSA
 	snd_pcm_sframes_t f, samples = 1920;
+#endif
+#ifdef USE_PORTAUDIO
+	long samples = 1920;
+#endif
 
 	pcm = alloca(sizeof(*pcm) * samples * channels);
 
@@ -100,6 +110,7 @@ static int play_one_frame(void *packet,
 		return -1;
 	}
 
+#ifdef USE_ALSA
 	f = snd_pcm_writei(snd, pcm, r);
 	if (f < 0) {
 		f = snd_pcm_recover(snd, f, 0);
@@ -111,15 +122,29 @@ static int play_one_frame(void *packet,
 	}
 	if (f < r)
 		fprintf(stderr, "Short write %ld\n", f);
+#endif
+
+#ifdef USER_PORTAUDIO
+	err = Pa_WriteStream(stream, pcm, f);
+	if (err != paNoError)
+	{
+		aerror("PaWriteStream", err);
+		return -1;
+	}
+#endif
 
 	return r;
 }
-#endif
 
-#ifdef USE_ALSA
+
 static int run_rx(RtpSession *session,
 		OpusDecoder *decoder,
+#ifdef USE_ALSA
 		snd_pcm_t *snd,
+#endif
+#ifdef USE_PORTAUDIO
+		PaStream *snd, // snd => stream
+#endif
 		const unsigned int channels,
 		const unsigned int rate)
 {
@@ -132,8 +157,10 @@ static int run_rx(RtpSession *session,
 
 		r = rtp_session_recv_with_ts(session, (uint8_t*)buf,
 				sizeof(buf), ts, &have_more);
+#ifdef LINUX
 		assert(r >= 0);
 		assert(have_more == 0);
+#endif
 		if (r == 0) {
 			packet = NULL;
 			if (verbose > 1)
@@ -153,7 +180,6 @@ static int run_rx(RtpSession *session,
 		ts += r * 8000 / rate;
 	}
 }
-#endif
 
 static void usage(FILE *fd)
 {
@@ -339,6 +365,9 @@ int main(int argc, char *argv[])
 	go_realtime();
 #ifdef USE_ALSA
 	r = run_rx(session, decoder, snd, channels, rate);
+#endif
+#ifdef USE_PORTAUDIO
+	r = run_rx(session, decoder, stream, channels, rate);
 #endif
 
 #ifdef USE_PORTAUDIO
