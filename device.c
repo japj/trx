@@ -114,12 +114,14 @@ int set_alsa_sw(snd_pcm_t *pcm)
 int open_pa_writestream(PaStream **stream,
 		unsigned int rate, unsigned int channels)
 {
+	//const PaStreamParameters outputParameters;
+	//outputPar
 	//unsigned int framesPerBuffer;
 	//framesPerBuffer = (rate / 1000) * 2;
 	PaError err;
 	err = Pa_OpenDefaultStream(	stream,
-								channels, // 1 input channel
-								0, // no output
+								0, // no input channel
+								channels, // output channels
 								paInt16, // should be similar to also SND_PCM_FORMAT_S16, should also be interleaved);				
 								rate,
 								256, //framesPerBuffer, // frames per buffer
@@ -140,8 +142,8 @@ int open_pa_readstream(PaStream **stream,
 	//framesPerBuffer = (rate / 1000) * 2;
 	PaError err;
 	err = Pa_OpenDefaultStream(	stream,
-								0, // no input
-								channels, // output channeles
+								channels, // input channels
+								0, // no output
 								paInt16, // should be similar to also SND_PCM_FORMAT_S16, should also be interleaved);				
 								rate,
 								256, //framesPerBuffer, // frames per buffer
