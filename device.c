@@ -114,12 +114,17 @@ int set_alsa_sw(snd_pcm_t *pcm)
 int open_pa_writestream(PaStream **stream,
 		unsigned int rate, unsigned int channels)
 {
-	//const PaStreamParameters outputParameters;
-	//outputPar
+	PaStreamParameters outputParameters;
+    outputParameters.device = Pa_GetDefaultOutputDevice();
+	outputParameters.channelCount = channels;
+	outputParameters.sampleFormat = paInt16;
+	outputParameters.suggestedLatency = Pa_GetDeviceInfo(outputParameters.device)->defaultLowOutputLatency;
+	outputParameters.hostApiSpecificStreamInfo = NULL;
+
 	//unsigned int framesPerBuffer;
 	//framesPerBuffer = (rate / 1000) * 2;
 	PaError err;
-	err = Pa_OpenDefaultStream(	stream,
+	/*err = Pa_OpenDefaultStream(	stream,
 								0, // no input channel
 								channels, // output channels
 								paInt16, // should be similar to also SND_PCM_FORMAT_S16, should also be interleaved);				
@@ -127,6 +132,16 @@ int open_pa_writestream(PaStream **stream,
 								256, //framesPerBuffer, // frames per buffer
 								NULL, // open stream in blocking mode
 								NULL);
+	*/
+	err = Pa_OpenStream(	stream,
+							NULL,
+							&outputParameters,
+							rate,
+							256,
+							paClipOff,
+							NULL,
+							NULL
+	);
 	CHK("Pa_OpenDefaultStream", err);
 
 	return 0;
