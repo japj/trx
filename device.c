@@ -18,7 +18,9 @@
  */
 
 #include <stdio.h>
+#ifdef USE_ALSA
 #include <alsa/asoundlib.h>
+#endif
 
 #define CHK(call, r) { \
 	if (r < 0) { \
@@ -31,10 +33,13 @@ void aerror(const char *msg, int r)
 {
 	fputs(msg, stderr);
 	fputs(": ", stderr);
+#ifdef USE_ALSA
 	fputs(snd_strerror(r), stderr);
+#endif
 	fputc('\n', stderr);
 }
 
+#ifdef USE_ALSA
 int set_alsa_hw(snd_pcm_t *pcm,
 		unsigned int rate, unsigned int channels,
 		unsigned int buffer)
@@ -71,7 +76,9 @@ int set_alsa_hw(snd_pcm_t *pcm,
 
 	return 0;
 }
+#endif
 
+#ifdef USE_ALSA
 int set_alsa_sw(snd_pcm_t *pcm)
 {
 	int r;
@@ -95,3 +102,4 @@ int set_alsa_sw(snd_pcm_t *pcm)
 	return 0;
 
 }
+#endif

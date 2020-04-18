@@ -19,7 +19,9 @@
 
 #include <netdb.h>
 #include <string.h>
+#ifdef USE_AsLSA
 #include <alsa/asoundlib.h>
+#endif
 #include <opus/opus.h>
 #include <ortp/ortp.h>
 #include <sys/socket.h>
@@ -72,6 +74,7 @@ static RtpSession* create_rtp_recv(const char *addr_desc, const int port,
 	return session;
 }
 
+#ifdef USE_ALSA
 static int play_one_frame(void *packet,
 		size_t len,
 		OpusDecoder *decoder,
@@ -108,7 +111,9 @@ static int play_one_frame(void *packet,
 
 	return r;
 }
+#endif
 
+#ifdef USE_ALSA
 static int run_rx(RtpSession *session,
 		OpusDecoder *decoder,
 		snd_pcm_t *snd,
@@ -145,6 +150,7 @@ static int run_rx(RtpSession *session,
 		ts += r * 8000 / rate;
 	}
 }
+#endif
 
 static void usage(FILE *fd)
 {
@@ -180,7 +186,9 @@ static void usage(FILE *fd)
 int main(int argc, char *argv[])
 {
 	int r, error;
+#ifdef USE_ALSA
 	snd_pcm_t *snd;
+#endif
 	OpusDecoder *decoder;
 	RtpSession *session;
 
@@ -246,8 +254,11 @@ int main(int argc, char *argv[])
 	ortp_init();
 	ortp_scheduler_init();
 	session = create_rtp_recv(addr, port, jitter);
+#ifdef LINUX
 	assert(session != NULL);
+#endif
 
+#ifdef USE_ALSA
 	r = snd_pcm_open(&snd, device, SND_PCM_STREAM_PLAYBACK, 0);
 	if (r < 0) {
 		aerror("snd_pcm_open", r);
@@ -257,15 +268,20 @@ int main(int argc, char *argv[])
 		return -1;
 	if (set_alsa_sw(snd) == -1)
 		return -1;
+#endif
 
 	if (pid)
 		go_daemon(pid);
 
 	go_realtime();
+#ifdef USE_ALSA
 	r = run_rx(session, decoder, snd, channels, rate);
+#endif
 
+#ifdef USE_ALSA
 	if (snd_pcm_close(snd) < 0)
 		abort();
+#endif
 
 	rtp_session_destroy(session);
 	ortp_exit();

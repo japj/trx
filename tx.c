@@ -19,7 +19,9 @@
 
 #include <netdb.h>
 #include <string.h>
+#ifdef USE_ALSA
 #include <alsa/asoundlib.h>
+#endif
 #include <opus/opus.h>
 #include <ortp/ortp.h>
 #include <sys/socket.h>
@@ -37,7 +39,9 @@ static RtpSession* create_rtp_send(const char *addr_desc, const int port)
 	RtpSession *session;
 
 	session = rtp_session_new(RTP_SESSION_SENDONLY);
+#ifdef LINUX
 	assert(session != NULL);
+#endif
 
 	rtp_session_set_scheduling_mode(session, 0);
 	rtp_session_set_blocking_mode(session, 0);
@@ -54,6 +58,7 @@ static RtpSession* create_rtp_send(const char *addr_desc, const int port)
 	return session;
 }
 
+#ifdef USE_ALSA
 static int send_one_frame(snd_pcm_t *snd,
 		const unsigned int channels,
 		const snd_pcm_uframes_t samples,
@@ -104,7 +109,9 @@ static int send_one_frame(snd_pcm_t *snd,
 
 	return 0;
 }
+#endif
 
+#ifdef USE_ALSA
 static int run_tx(snd_pcm_t *snd,
 		const unsigned int channels,
 		const snd_pcm_uframes_t frame,
@@ -126,6 +133,7 @@ static int run_tx(snd_pcm_t *snd,
 			fputc('>', stderr);
 	}
 }
+#endif
 
 static void usage(FILE *fd)
 {
@@ -168,7 +176,9 @@ int main(int argc, char *argv[])
 	int r, error;
 	size_t bytes_per_frame;
 	unsigned int ts_per_frame;
+#ifdef USE_ALSA
 	snd_pcm_t *snd;
+#endif
 	OpusEncoder *encoder;
 	RtpSession *session;
 
@@ -247,8 +257,11 @@ int main(int argc, char *argv[])
 	ortp_scheduler_init();
 	ortp_set_log_level_mask(NULL, ORTP_WARNING|ORTP_ERROR);
 	session = create_rtp_send(addr, port);
+#ifdef LINUX
 	assert(session != NULL);
+#endif
 
+#ifdef USE_ALSA
 	r = snd_pcm_open(&snd, device, SND_PCM_STREAM_CAPTURE, 0);
 	if (r < 0) {
 		aerror("snd_pcm_open", r);
@@ -258,16 +271,19 @@ int main(int argc, char *argv[])
 		return -1;
 	if (set_alsa_sw(snd) == -1)
 		return -1;
+#endif
 
 	if (pid)
 		go_daemon(pid);
 
 	go_realtime();
+#ifdef USE_ALSA
 	r = run_tx(snd, channels, frame, encoder, bytes_per_frame,
 		ts_per_frame, session);
 
 	if (snd_pcm_close(snd) < 0)
 		abort();
+#endif
 
 	rtp_session_destroy(session);
 	ortp_exit();

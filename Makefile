@@ -7,11 +7,13 @@ INSTALL ?= install
 PREFIX ?= /usr/local
 BINDIR ?= $(PREFIX)/bin
 
-CFLAGS += -MMD -Wall
+CFLAGS += -MMD -Wall 
+CFLAGS += -I/usr/local/Cellar/ortp/4.3.2/libexec/include/
 
-LDLIBS_ASOUND ?= -lasound
+#LDLIBS_ASOUND ?= -lasound
 LDLIBS_OPUS ?= -lopus
-LDLIBS_ORTP ?= -lortp
+LDLIBS_ORTP ?= -lortp 
+LDLIBS_ORTP += /usr/local/Cellar/ortp/4.3.2/libexec/lib/libbctoolbox.a
 
 LDLIBS += $(LDLIBS_ASOUND) $(LDLIBS_OPUS) $(LDLIBS_ORTP)
 
