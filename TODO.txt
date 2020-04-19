@@ -1,11 +1,17 @@
-- use session_timed_select to not busy loop (check blocking_mode)
-- default_addr :: -> 0.0.0.0
-- check connect_mode to receive from all other hosts
 - portaudio use callback to play/record data
-- update default port audio device detection (remove default macro)
-- portaudio check multiple play/record
-- portaudio check all playback/record devices
-- check portaudio support on linux
-- check ortp on windows?
+- use session_timed_select to not busy loop (check blocking_mode)
+
 - mac rx lots of "timestamp in the future detected"
 - mac tx Pa Input overflowed issues
+
+- default_addr :: -> 0.0.0.0
+- update default port audio device detection (remove default macro)
+- check portaudio support on linux
+
+- check connect_mode to receive from all other hosts
+  - single rx for multiple tx?
+
+- portaudio check all playback/record devices
+  - latency/quality of different devices
+  
+- check ortp on windows?
