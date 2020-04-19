@@ -7,3 +7,4 @@
 - portaudio check all playback/record devices
 - check portaudio support on linux
 - check ortp on windows?
+- Output underflowed exit?
