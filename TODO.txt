@@ -5,3 +5,5 @@
 - update default port audio device detection (remove default macro)
 - portaudio check multiple play/record
 - portaudio check all playback/record devices
+- check portaudio support on linux
+- check ortp on windows?
