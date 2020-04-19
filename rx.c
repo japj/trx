@@ -127,10 +127,8 @@ static int play_one_frame(void *packet,
 
 #ifdef USE_PORTAUDIO
 	err = Pa_WriteStream(snd, pcm, r);
-	if (err != paNoError)
-	{
-		aerror("PaWriteStream", err);
-		return -1;
+	if (err == paOutputUnderflowed) {
+		fprintf(stderr, "Output underflowed\n");
 	}
 #endif
 
