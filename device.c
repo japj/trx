@@ -124,15 +124,6 @@ int open_pa_writestream(PaStream **stream,
 	//unsigned int framesPerBuffer;
 	//framesPerBuffer = (rate / 1000) * 2;
 	PaError err;
-	/*err = Pa_OpenDefaultStream(	stream,
-								0, // no input channel
-								channels, // output channels
-								paInt16, // should be similar to also SND_PCM_FORMAT_S16, should also be interleaved);				
-								rate,
-								256, //framesPerBuffer, // frames per buffer
-								NULL, // open stream in blocking mode
-								NULL);
-	*/
 	err = Pa_OpenStream(	stream,
 							NULL,
 							&outputParameters,
@@ -144,6 +135,10 @@ int open_pa_writestream(PaStream **stream,
 	);
 	CHK("Pa_OpenDefaultStream", err);
 
+	const PaDeviceInfo *deviceInfo;
+	deviceInfo = Pa_GetDeviceInfo(outputParameters.device);
+	printf("open_pa_writestream Pa Device(%d), name(%s)\n", outputParameters.device, deviceInfo->name);
+
 	return 0;
 }
 #endif
@@ -153,18 +148,30 @@ int open_pa_writestream(PaStream **stream,
 int open_pa_readstream(PaStream **stream,
 		unsigned int rate, unsigned int channels)
 {
+	PaStreamParameters inputParameters;
+    inputParameters.device = 3; Pa_GetDefaultInputDevice();
+	inputParameters.channelCount = channels;
+	inputParameters.sampleFormat = paInt16;
+	inputParameters.suggestedLatency = Pa_GetDeviceInfo(inputParameters.device)->defaultLowOutputLatency;
+	inputParameters.hostApiSpecificStreamInfo = NULL;
+
 	//unsigned int framesPerBuffer;
 	//framesPerBuffer = (rate / 1000) * 2;
 	PaError err;
-	err = Pa_OpenDefaultStream(	stream,
-								channels, // input channels
-								0, // no output
-								paInt16, // should be similar to also SND_PCM_FORMAT_S16, should also be interleaved);				
-								rate,
-								256, //framesPerBuffer, // frames per buffer
-								NULL, // open stream in blocking mode
-								NULL);
+	err = Pa_OpenStream(	stream,
+							&inputParameters,
+							NULL,
+							rate,
+							256,
+							paClipOff,
+							NULL,
+							NULL
+	);
 	CHK("Pa_OpenDefaultStream", err);
+
+	const PaDeviceInfo *deviceInfo;
+	deviceInfo = Pa_GetDeviceInfo(inputParameters.device);
+	printf("open_pa_readstream Pa Device(%d), name(%s)\n", inputParameters.device, deviceInfo->name);
 
 	return 0;
 }
