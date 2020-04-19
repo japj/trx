@@ -50,7 +50,7 @@ static RtpSession* create_rtp_recv(const char *addr_desc, const int port,
 	RtpSession *session;
 
 	session = rtp_session_new(RTP_SESSION_RECVONLY);
-	rtp_session_set_scheduling_mode(session, FALSE);
+	rtp_session_set_scheduling_mode(session, TRUE);
 	rtp_session_set_blocking_mode(session, TRUE);
 	rtp_session_set_local_addr(session, addr_desc, port, -1);
 	rtp_session_set_connected_mode(session, FALSE);
@@ -149,10 +149,24 @@ static int run_rx(RtpSession *session,
 {
 	int ts = 0;
 
+	struct timeval interval;
+	interval.tv_sec = 0;
+	interval.tv_usec = TIMED_SELECT_INTERVAL;
+	
+	SessionSet	*set;
+	set = session_set_new();
+	session_set_set(set, session);
+
+	uint64_t tc_start, tc_now;
+	tc_start = ortp_get_cur_time_ms();
+
 	for (;;) {
 		int r, have_more;
-		char buf[32768];
+		char buf[32768]; 
 		void *packet;
+
+		// max TIMED_SELECT_INTERVAL usec timed suspend for receiving
+		r = session_set_timedselect(set, NULL, NULL, &interval);
 
 		r = rtp_session_recv_with_ts(session, (uint8_t*)buf,
 				sizeof(buf), ts, &have_more);
@@ -177,7 +191,19 @@ static int run_rx(RtpSession *session,
 		/* Follow the RFC, payload 0 has 8kHz reference rate */
 
 		ts += r * 8000 / rate;
+
+		// log globals stats on regular basis
+		tc_now = ortp_get_cur_time_ms();
+		if (tc_now - tc_start > STATS_INTERVAL_MS)
+		{
+			printf("\n\n");
+			ortp_global_stats_display();
+			printf("\n\n");
+			tc_start = tc_now;
+		}
 	}
+	// should cleanup at the end
+	session_set_destroy(set);
 }
 
 static void usage(FILE *fd)
@@ -317,6 +343,11 @@ int main(int argc, char *argv[])
 
 	ortp_init();
 	ortp_scheduler_init();
+	
+	// enable showing of the global stats
+	ortp_set_log_level_mask(NULL, ORTP_MESSAGE|ORTP_WARNING|ORTP_ERROR);
+	ortp_set_log_file(stdout);
+
 	session = create_rtp_recv(addr, port, jitter);
 #ifdef LINUX
 	assert(session != NULL);
