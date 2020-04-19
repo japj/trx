@@ -161,6 +161,9 @@ static int run_tx(
 		const unsigned int ts_per_frame,
 		RtpSession *session)
 {
+	uint64_t tc_start, tc_now;
+	tc_start = ortp_get_cur_time_ms();
+
 	for (;;) {
 		int r;
 
@@ -172,6 +175,16 @@ static int run_tx(
 
 		if (verbose > 1)
 			fputc('>', stderr);
+
+		// log globals stats on regular basis
+		tc_now = ortp_get_cur_time_ms();
+		if (tc_now - tc_start > STATS_INTERVAL_MS)
+		{
+			printf("\n\n");
+			ortp_global_stats_display();
+			printf("\n\n");
+			tc_start = tc_now;
+		}
 	}
 }
 
@@ -299,7 +312,11 @@ int main(int argc, char *argv[])
 
 	ortp_init();
 	ortp_scheduler_init();
-	ortp_set_log_level_mask(NULL, ORTP_WARNING|ORTP_ERROR);
+	
+	// enable showing of the global stats
+	ortp_set_log_level_mask(NULL, ORTP_MESSAGE|ORTP_WARNING|ORTP_ERROR);
+	ortp_set_log_file(stdout);
+
 	session = create_rtp_send(addr, port);
 #ifdef LINUX
 	assert(session != NULL);
