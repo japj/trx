@@ -1,0 +1,7 @@
+- use session_timed_select to not busy loop (check blocking_mode)
+- default_addr :: -> 0.0.0.0
+- check connect_mode to receive from all other hosts
+- portaudio use callback to play/record data
+- update default port audio device detection (remove default macro)
+- portaudio check multiple play/record
+- portaudio check all playback/record devices
