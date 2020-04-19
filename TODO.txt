@@ -1,5 +1,4 @@
-- portaudio use callback to play/record data
-- use session_timed_select to not busy loop (check blocking_mode)
+- portaudio use callback to record data
 
 - mac rx lots of "timestamp in the future detected"
 - mac tx Pa Input overflowed issues
