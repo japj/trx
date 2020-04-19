@@ -90,6 +90,7 @@ static int play_one_frame(void *packet,
 {
 	int r;
 	int16_t *pcm;
+	PaError err;
 	// why samples = 1920? is it 2*960 (960 is max frame size opus, 2 for stereo)
 #ifdef USE_ALSA
 	snd_pcm_sframes_t f, samples = 1920;
@@ -124,8 +125,8 @@ static int play_one_frame(void *packet,
 		fprintf(stderr, "Short write %ld\n", f);
 #endif
 
-#ifdef USER_PORTAUDIO
-	err = Pa_WriteStream(stream, pcm, r);
+#ifdef USE_PORTAUDIO
+	err = Pa_WriteStream(snd, pcm, r);
 	if (err != paNoError)
 	{
 		aerror("PaWriteStream", err);
