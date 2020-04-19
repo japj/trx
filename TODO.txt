@@ -7,3 +7,5 @@
 - portaudio check all playback/record devices
 - check portaudio support on linux
 - check ortp on windows?
+- mac rx lots of "timestamp in the future detected"
+- mac tx Pa Input overflowed issues
