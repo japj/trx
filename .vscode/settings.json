@@ -2,5 +2,6 @@
     "C_Cpp.default.defines": [
         "USE_PORTAUDIO"
     ],
-    "C_Cpp.default.includePath": ["/usr/local/Cellar/ortp/4.3.2/libexec/include/"]
+    "C_Cpp.default.includePath": ["/usr/local/Cellar/ortp/4.3.2/libexec/include/",
+        "D:\\GitHub\\vcpkg\\installed\\x64-windows\\include"]
 }
