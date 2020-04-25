@@ -57,7 +57,9 @@ static RtpSession* create_rtp_recv(const char *addr_desc, const int port,
 	rtp_session_enable_adaptive_jitter_compensation(session, TRUE);
 	rtp_session_set_jitter_compensation(session, jitter); /* ms */
 	rtp_session_set_time_jump_limit(session, jitter * 16); /* ms */
-	if (rtp_session_set_payload_type(session, 0) != 0)
+
+	// payload type 11 = payload_type_l16_mono, having clock_rate of 44.1kHz, (payload info is used by jitter)
+	if (rtp_session_set_payload_type(session, 11) != 0)
 		abort();
 	if (rtp_session_signal_connect(session, "timestamp_jump",
 					timestamp_jump, 0) != 0)
@@ -96,7 +98,8 @@ static int play_one_frame(void *packet,
 	snd_pcm_sframes_t f, samples = 1920;
 #endif
 #ifdef USE_PORTAUDIO
-	long samples = 1920;
+	long samples = 2880;  // 2280 is sample buffer size for decoding at at 48kHz with 60ms
+						  // for better analysis of the audio I am sending with 60ms from opusrtp
 #endif
 
 	pcm = alloca(sizeof(*pcm) * samples * channels);
@@ -161,36 +164,56 @@ static int run_rx(RtpSession *session,
 	tc_start = ortp_get_cur_time_ms();
 
 	for (;;) {
-		int r, have_more;
-		char buf[32768]; 
+		int have_more=0, packet_size, 
+		decoded_size = 2880; // see also comment in play_one_frame
+		unsigned char buf[32768]; 
 		void *packet;
 
+#if !USE_RECVM
 		// max TIMED_SELECT_INTERVAL usec timed suspend for receiving
-		r = session_set_timedselect(set, NULL, NULL, &interval);
+        //r = session_set_timedselect(set, NULL, NULL, &interval);
 
-		r = rtp_session_recv_with_ts(session, (uint8_t*)buf,
+		packet_size = rtp_session_recv_with_ts(session, (uint8_t*)buf,
 				sizeof(buf), ts, &have_more);
+
+#else
+		// recvm is recommended, but my code currently crashes so not ready yet
+		mblk_t *mp = rtp_session_recvm_with_ts(session, ts);
+		
+		unsigned char *payload;
+		packet_size = rtp_get_payload(mp, &payload);
+#endif
+
 #ifdef LINUX
-		assert(r >= 0);
+		assert(packet_size >= 0);
 		assert(have_more == 0);
 #endif
-		if (r == 0) {
+		if (packet_size == 0) {
 			packet = NULL;
 			if (verbose > 1)
 				fputc('#', stderr);
 		} else {
+#if !USE_RECVM
 			packet = buf;
+#else
+			packet = payload;
+#endif
 			if (verbose > 1)
 				fputc('.', stderr);
 		}
 
-		r = play_one_frame(packet, r, decoder, snd, channels);
-		if (r == -1)
+		decoded_size = play_one_frame(packet, packet_size, decoder, snd, channels);
+		if (decoded_size== -1)
 			return -1;
 
 		/* Follow the RFC, payload 0 has 8kHz reference rate */
+		/* opusrtp does 48kHz rate, and ts follows samplecount */
+		ts += decoded_size * 8000 / rate;
+		
+		// 44.1kHz rate timeclock is 2646 samples
+		//ts += 2646;
 
-		ts += r * 8000 / rate;
+		printf("play_one_frame, decoded_size:%d, packet_size: %d, ts: %d, have_more: %d\n", decoded_size, packet_size, ts, have_more);
 
 		// log globals stats on regular basis
 		tc_now = ortp_get_cur_time_ms();
