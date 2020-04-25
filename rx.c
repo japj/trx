@@ -241,7 +241,7 @@ static void usage(FILE *fd)
 	fprintf(fd, "  -r <rate>   Sample rate (default %dHz)\n",
 		DEFAULT_RATE);
 	fprintf(fd, "  -c <n>      Number of channels (default %d)\n",
-		DEFAULT_CHANNELS);
+		DEFAULT_OUTPUTCHANNELS);
 
 	fprintf(fd, "\nProgram parameters:\n");
 	fprintf(fd, "  -v <n>      Verbosity level (default %d)\n",
@@ -285,7 +285,7 @@ int main(int argc, char *argv[])
 	unsigned int buffer = DEFAULT_BUFFER,
 		rate = DEFAULT_RATE,
 		jitter = DEFAULT_JITTER,
-		channels = DEFAULT_CHANNELS,
+		channels = DEFAULT_OUTPUTCHANNELS,
 	#ifdef USE_PORTAUDIO
 		device = Pa_GetDefaultOutputDevice(),
 	#endif

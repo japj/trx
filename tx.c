@@ -221,7 +221,7 @@ static void usage(FILE *fd)
 	fprintf(fd, "  -r <rate>   Sample rate (default %dHz)\n",
 		DEFAULT_RATE);
 	fprintf(fd, "  -c <n>      Number of channels (default %d)\n",
-		DEFAULT_CHANNELS);
+		DEFAULT_INPUTCHANNELS);
 	fprintf(fd, "  -f <n>      Frame size (default %d samples, see below)\n",
 		DEFAULT_FRAME);
 	fprintf(fd, "  -b <kbps>   Bitrate (approx., default %d)\n",
@@ -273,7 +273,7 @@ int main(int argc, char *argv[])
 		*addr = DEFAULT_ADDR;
 	unsigned int buffer = DEFAULT_BUFFER,
 		rate = DEFAULT_RATE,
-		channels = DEFAULT_CHANNELS,
+		channels = DEFAULT_INPUTCHANNELS,
 		frame = DEFAULT_FRAME,
 		kbps = DEFAULT_BITRATE,
 #ifdef USE_PORTAUDIO
