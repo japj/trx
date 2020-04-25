@@ -1,10 +1,16 @@
 #ifndef DEFAULTS_H
 #define DEFAULTS_H
 
+#ifdef USE_ALSA
 #define DEFAULT_DEVICE "default"
+#endif
 #define DEFAULT_BUFFER 16
 
+#ifdef LINUX
 #define DEFAULT_ADDR "::"
+#else
+#define DEFAULT_ADDR "0.0.0.0"
+#endif
 #define DEFAULT_PORT 1350
 #define DEFAULT_FRAME 960
 #define DEFAULT_JITTER 16

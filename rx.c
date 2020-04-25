@@ -211,9 +211,21 @@ static void usage(FILE *fd)
 	fprintf(fd, "Usage: rx [<parameters>]\n"
 		"Real-time audio receiver over IP\n");
 
+	int defaultOutput = Pa_GetDefaultOutputDevice();
+
+	const PaDeviceInfo *deviceInfo;
+	deviceInfo = Pa_GetDeviceInfo(defaultOutput);
+
+#ifdef USE_ALSA
 	fprintf(fd, "\nAudio device (ALSA) parameters:\n");
 	fprintf(fd, "  -d <dev>    Device name (default '%s')\n",
-		DEFAULT_DEVICE);
+		DEFAULT_DEVICE);	
+#endif
+#ifdef USE_PORTAUDIO
+	fprintf(fd, "\nAudio device (PortAudio) parameters:\n");
+	fprintf(fd, "  -d <dev>    Device id (default '%d' = '%s')\n",
+		defaultOutput, deviceInfo->name);
+#endif
 	fprintf(fd, "  -m <ms>     Buffer time (default %d milliseconds)\n",
 		DEFAULT_BUFFER);
 
@@ -234,7 +246,9 @@ static void usage(FILE *fd)
 	fprintf(fd, "\nProgram parameters:\n");
 	fprintf(fd, "  -v <n>      Verbosity level (default %d)\n",
 		DEFAULT_VERBOSE);
+#ifdef LINUX
 	fprintf(fd, "  -D <file>   Run as a daemon, writing process ID to the given file\n");
+#endif
 }
 
 int main(int argc, char *argv[])
@@ -250,14 +264,31 @@ int main(int argc, char *argv[])
 	OpusDecoder *decoder;
 	RtpSession *session;
 
+#ifdef USE_PORTAUDIO
+	err = Pa_Initialize();
+	if (err != paNoError)
+	{
+		printf("PortAudio error: %s \n", Pa_GetErrorText(err));
+		return -1;
+	}
+#endif
+
 	/* command-line options */
-	const char *device = DEFAULT_DEVICE,
-		*addr = DEFAULT_ADDR,
-		*pid = NULL;
+	const char
+#ifdef LINUX
+		*pid = NULL,
+#endif
+#ifdef USE_ALSA
+		*device = DEFAULT_DEVICE,
+#endif
+		*addr = DEFAULT_ADDR;
 	unsigned int buffer = DEFAULT_BUFFER,
 		rate = DEFAULT_RATE,
 		jitter = DEFAULT_JITTER,
 		channels = DEFAULT_CHANNELS,
+	#ifdef USE_PORTAUDIO
+		device = Pa_GetDefaultOutputDevice(),
+	#endif
 		port = DEFAULT_PORT;
 
 	fputs(COPYRIGHT "\n", stderr);
@@ -265,7 +296,11 @@ int main(int argc, char *argv[])
 	for (;;) {
 		int c;
 
+#ifdef LINUX
+		c = getopt(argc, argv, "c:d:h:j:m:p:r:v:D");
+#else
 		c = getopt(argc, argv, "c:d:h:j:m:p:r:v:");
+#endif
 		if (c == -1)
 			break;
 		switch (c) {
@@ -273,7 +308,7 @@ int main(int argc, char *argv[])
 			channels = atoi(optarg);
 			break;
 		case 'd':
-			device = optarg;
+			device = atoi(optarg);
 			break;
 		case 'h':
 			addr = optarg;
@@ -293,9 +328,11 @@ int main(int argc, char *argv[])
 		case 'v':
 			verbose = atoi(optarg);
 			break;
+#ifdef LINUX
 		case 'D':
 			pid = optarg;
 			break;
+#endif
 		default:
 			usage(stderr);
 			return -1;
@@ -334,15 +371,8 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef USE_PORTAUDIO
-	err = Pa_Initialize();
-	if (err != paNoError)
-	{
-		printf("PortAudio error: %s \n", Pa_GetErrorText(err));
-		return -1;
-	}
-
 	// TODO buffer size?
-	err = open_pa_writestream(&stream, rate, channels);
+	err = open_pa_writestream(&stream, rate, channels, device);
 	if (err != paNoError)
 	{
 		aerror("open_pa_stream", err);
@@ -357,10 +387,12 @@ int main(int argc, char *argv[])
 	}
 #endif
 
+#ifdef LINUX
 	if (pid)
 		go_daemon(pid);
 
 	go_realtime();
+#endif
 #ifdef USE_ALSA
 	r = run_rx(session, decoder, snd, channels, rate);
 #endif

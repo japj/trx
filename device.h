@@ -31,10 +31,10 @@ int set_alsa_sw(snd_pcm_t *pcm);
 
 #ifdef USE_PORTAUDIO
 int open_pa_writestream(PaStream **stream,
-		unsigned int rate, unsigned int channels);
+		unsigned int rate, unsigned int channels, unsigned int device);
 
 int open_pa_readstream(PaStream **stream,
-		unsigned int rate, unsigned int channels);
+		unsigned int rate, unsigned int channels, unsigned int device);
 #endif
 
 #endif
