@@ -34,6 +34,7 @@
 #include "device.h"
 #include "notice.h"
 #include "sched.h"
+#include "payload_type_opus.h"
 
 static unsigned int verbose = DEFAULT_VERBOSE;
 
@@ -58,8 +59,14 @@ static RtpSession* create_rtp_recv(const char *addr_desc, const int port,
 	rtp_session_set_jitter_compensation(session, jitter); /* ms */
 	rtp_session_set_time_jump_limit(session, jitter * 16); /* ms */
 
+	/* set the opus event payload type to 120 in the av profile.
+		opusrtp defaults to sending payload type 120
+	*/
+	rtp_profile_set_payload(&av_profile,120,&payload_type_opus_mono);
+
 	// payload type 11 = payload_type_l16_mono, having clock_rate of 44.1kHz, (payload info is used by jitter)
-	if (rtp_session_set_payload_type(session, 11) != 0)
+	// payload type 120 = own opus
+	if (rtp_session_set_payload_type(session, 120) != 0)
 		abort();
 	if (rtp_session_signal_connect(session, "timestamp_jump",
 					timestamp_jump, 0) != 0)
@@ -208,7 +215,7 @@ static int run_rx(RtpSession *session,
 
 		/* Follow the RFC, payload 0 has 8kHz reference rate */
 		/* opusrtp does 48kHz rate, and ts follows samplecount */
-		ts += decoded_size * 8000 / rate;
+		ts += decoded_size; //* 8000 / rate;
 		
 		// 44.1kHz rate timeclock is 2646 samples
 		//ts += 2646;

@@ -28,7 +28,7 @@ all:		rx tx detect
 
 detect: detect.o
 
-rx:		rx.o device.o sched.o
+rx:		rx.o device.o sched.o payload_type_opus.o
 
 tx:		tx.o device.o sched.o
 
