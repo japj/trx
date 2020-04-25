@@ -176,6 +176,7 @@ static int run_rx(RtpSession *session,
 		unsigned char buf[32768]; 
 		void *packet;
 
+#define USE_RECVM 1
 #if !USE_RECVM
 		// max TIMED_SELECT_INTERVAL usec timed suspend for receiving
         //r = session_set_timedselect(set, NULL, NULL, &interval);
@@ -184,11 +185,15 @@ static int run_rx(RtpSession *session,
 				sizeof(buf), ts, &have_more);
 
 #else
-		// recvm is recommended, but my code currently crashes so not ready yet
+		// recvm is recommended and this seems to work now
 		mblk_t *mp = rtp_session_recvm_with_ts(session, ts);
-		
-		unsigned char *payload;
-		packet_size = rtp_get_payload(mp, &payload);
+		unsigned char *payload = NULL;
+		if ( mp!= NULL)
+		{
+
+			packet_size = rtp_get_payload(mp, &payload);
+			printf("packetsize: %d\n", packet_size);
+		}
 #endif
 
 #ifdef LINUX
