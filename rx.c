@@ -160,31 +160,42 @@ static int run_rx(RtpSession *session,
 	int ts = 0;
 
 	struct timeval interval;
-	interval.tv_sec = 0;
-	interval.tv_usec = TIMED_SELECT_INTERVAL;
+	interval.tv_sec = TIMED_SELECT_INTERVAL;
+	interval.tv_usec = 0;
 	
 	SessionSet	*set;
 	set = session_set_new();
-	session_set_set(set, session);
+	
 
 	uint64_t tc_start, tc_now;
 	tc_start = ortp_get_cur_time_ms();
 
 	for (;;) {
-		int have_more=0, packet_size, 
+		int have_more=1, packet_size, 
 		decoded_size = 2880; // see also comment in play_one_frame
 		unsigned char buf[32768]; 
 		void *packet;
 
-#define USE_RECVM 1
+		session_set_set(set, session);
+
+#define USE_RECVM 0
 #if !USE_RECVM
 		// max TIMED_SELECT_INTERVAL usec timed suspend for receiving
         //r = session_set_timedselect(set, NULL, NULL, &interval);
 
+		// TODO: check https://github.com/BelledonneCommunications/ortp/blob/6b925368588ce0fc64a9762dbe86041151e8450a/src/tests/mrtprecv.c#L56
+		// for havemore loop and recv_with_ts
 		packet_size = rtp_session_recv_with_ts(session, (uint8_t*)buf,
 				sizeof(buf), ts, &have_more);
 
 #else
+		//int r = session_set_timedselect(set, NULL, NULL, &interval);
+		int r = session_set_select(set, NULL, NULL);
+		printf("session_set_timedselect: %d\n", r);
+		if (session_set_is_set(set,session)){
+			printf("session is set!\n");
+		}
+		
 		// recvm is recommended and this seems to work now
 		mblk_t *mp = rtp_session_recvm_with_ts(session, ts);
 		unsigned char *payload = NULL;
