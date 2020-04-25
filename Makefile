@@ -20,7 +20,9 @@ LDLIBS += $(LDLIBS_ASOUND) $(LDLIBS_OPUS) $(LDLIBS_ORTP) $(LDLIBS_PORTAUDIO)
 
 .PHONY:		all install dist clean
 
-all:		rx tx
+all:		rx tx detect
+
+detect: detect.o
 
 rx:		rx.o device.o sched.o
 

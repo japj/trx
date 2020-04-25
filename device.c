@@ -134,7 +134,7 @@ int open_pa_writestream(PaStream **stream,
 		unsigned int rate, unsigned int channels)
 {
 	PaStreamParameters outputParameters;
-    outputParameters.device = Pa_GetDefaultOutputDevice();
+    outputParameters.device = 2;//Pa_GetDefaultOutputDevice();
 	outputParameters.channelCount = channels;
 	outputParameters.sampleFormat = paInt16;
 	outputParameters.suggestedLatency = Pa_GetDeviceInfo(outputParameters.device)->defaultLowOutputLatency;
@@ -167,7 +167,7 @@ int open_pa_readstream(PaStream **stream,
 		unsigned int rate, unsigned int channels)
 {
 	PaStreamParameters inputParameters;
-    inputParameters.device = 3; Pa_GetDefaultInputDevice();
+    inputParameters.device = 0, //Pa_GetDefaultInputDevice();
 	inputParameters.channelCount = channels;
 	inputParameters.sampleFormat = paInt16;
 	inputParameters.suggestedLatency = Pa_GetDeviceInfo(inputParameters.device)->defaultLowInputLatency;
