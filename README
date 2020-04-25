@@ -1,3 +1,11 @@
+This is a port of trx to portaudio so it can be used on more platforms.
+
+Status:
+- Mac: runs, see also TODO.txt for more details
+- Windows: not ported yet (needs also libortp libs)
+
+
+ORIGINAL README:
 trx: Realtime audio over IP
 
 (C) Copyright 2020 Mark Hills <mark@xwax.org>
