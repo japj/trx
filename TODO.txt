@@ -1,7 +1,17 @@
 - portaudio use callback to record data
+  - possibly use ringbuffer mechanism?
 
+- mac check using float32, since PA uses it internally
+  - opus supports _float versions of encode/decode 
 - mac rx lots of "timestamp in the future detected"
 - mac tx Pa Input overflowed issues
+
+- PA duplex callback might give better latency?
+  - requires tx/rx "in one"
+- PA patches at audacity that are not in master portaudio tree
+  - portmixer support
+  - ringbuffer
+  - several windows patches (jack/wasapi/mme/>16bit MME&DirectSound)
 
 - default_addr :: -> 0.0.0.0
 - update default port audio device detection (remove default macro)
