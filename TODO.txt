@@ -24,3 +24,21 @@
   - latency/quality of different devices
   
 - check ortp on windows?
+
+
+- opusenc
+  encoding options determine how opusrtp will send (e.g. framesize!)
+  ./opusenc ~/Documents/02\ King\ of\ Anything.wav test.opus --framesize 2.5 --bitrate 64
+  ./rx -d 2 -m 2
+
+  max framesize opusenc=60ms:
+  ./opusenc ~/Documents/02\ King\ of\ Anything.wav test.opus --framesize 60 --bitrate 128
+  ./rx -d 2 -m 60
+
+- opusrtp
+  trx uses default type of 1, opusrtp uses default 120, so explicitly set it
+  ./opusrtp -p 50050 test.opus -t 0 -c 1
+
+
+  opusrtp seems to follow encoded rate (48kHz) to set timestamps -> causes timestamps in the future?
+  ortp has payload profiles containing sample clockrate that is used by the jitter detection
