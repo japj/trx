@@ -138,10 +138,19 @@ static int paReadCallback(const void*                     inputBuffer,
 {
     int i;
     paReadData *data = (paReadData*)userData;
-    float *out = (float*)inputBuffer;
     (void) outputBuffer; /* Prevent "unused variable" warnings. */
 
-    return paContinue;
+    ring_buffer_size_t availableWriteFramesInRingBuffer = PaUtil_GetRingBufferWriteAvailable(&data->rBufFromRT);
+    // for now, we only write to the ring buffer if enough space is available
+    if (framesPerBuffer <= availableWriteFramesInRingBuffer)
+    {
+        ring_buffer_size_t written = PaUtil_WriteRingBuffer(&data->rBufFromRT, inputBuffer, framesPerBuffer);
+        return paContinue;
+    }
+
+    // if we can't write data to ringbuffer, stop recording for now to early detect issues
+    // TODO: determine what best to do here
+    return paAbort;
 }
 
 int ProtoOpenReadStream(PaStream **stream,
