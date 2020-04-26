@@ -55,6 +55,8 @@ typedef struct
     /* Ring buffer (FIFO) for "communicating" from audio callback */
     PaUtilRingBuffer    rBufFromRT;
     void*               rBufFromRTData;
+    int                 frameSizeBytes;
+    int                 channels;
 } paInputData;
 
 /* This routine will be called by the PortAudio engine when audio is needed.
@@ -174,17 +176,33 @@ int ProtoOpenInputStream(PaStream **stream,
 paOutputData* InitPaOutputData(PaSampleFormat sampleFormat, long bufferElements, unsigned int outputChannels)
 {
     int err;
-    paOutputData *wd = (paOutputData *)valloc(sizeof(paOutputData));
-    memset(wd, 0, sizeof(paOutputData));
+    paOutputData *od = (paOutputData *)valloc(sizeof(paOutputData));
+    memset(od, 0, sizeof(paOutputData));
 
     long writeDataBufElementCount = bufferElements;
     long writeSampleSize = Pa_GetSampleSize(sampleFormat);
-    wd->rBufToRTData = valloc(writeSampleSize * writeDataBufElementCount);
-    PaUtil_InitializeRingBuffer(&wd->rBufToRT, writeSampleSize, writeDataBufElementCount, wd->rBufToRTData);
-    wd->frameSizeBytes = writeSampleSize;
-    wd->channels = outputChannels;
+    od->rBufToRTData = valloc(writeSampleSize * writeDataBufElementCount);
+    PaUtil_InitializeRingBuffer(&od->rBufToRT, writeSampleSize, writeDataBufElementCount, od->rBufToRTData);
+    od->frameSizeBytes = writeSampleSize;
+    od->channels = outputChannels;
 
-    return wd;
+    return od;
+}
+
+paInputData* InitPaInputData(PaSampleFormat sampleFormat, long bufferElements, unsigned int inputChannels)
+{
+    int err;
+    paInputData *id = (paInputData *)valloc(sizeof(paInputData));
+    memset(id, 0, sizeof(paInputData));   
+
+    long readDataBufElementCount = bufferElements;
+    long readSampleSize = Pa_GetSampleSize(sampleFormat);
+    id->rBufFromRTData = valloc(readSampleSize * readDataBufElementCount);
+    PaUtil_InitializeRingBuffer(&id->rBufFromRT, readSampleSize, readDataBufElementCount, id->rBufFromRTData);
+    id->frameSizeBytes = readSampleSize;
+    id->channels = inputChannels;
+
+    return id;
 }
 
 /*
@@ -229,11 +247,7 @@ int main(int argc, char *argv[])
     /* input stream prepare */
     PaStream *inputStream;
 
-    paInputData inputData = {0};
-    long readDataBufElementCount = bufferElements;
-    long readSampleSize = Pa_GetSampleSize(sampleFormat);
-    inputData.rBufFromRTData = valloc(readSampleSize * readDataBufElementCount);
-    PaUtil_InitializeRingBuffer(&inputData.rBufFromRT, readSampleSize, readDataBufElementCount, inputData.rBufFromRTData);
+    paInputData *inputData = InitPaInputData(sampleFormat, bufferElements, inputChannels);
 
     /* record/play transfer buffer */
     long transferElementCount = bufferElements;
@@ -250,7 +264,7 @@ int main(int argc, char *argv[])
     CHK("Pa_StartStream Output", err);
 
     /* setup input device and stream */
-    err = ProtoOpenInputStream(&inputStream, rate, inputChannels, inputDevice, &inputData, sampleFormat);
+    err = ProtoOpenInputStream(&inputStream, rate, inputChannels, inputDevice, inputData, sampleFormat);
     CHK("ProtoOpenInputStream", err);
 
     printf("Pa_StartStream Input\n");
@@ -260,7 +274,7 @@ int main(int argc, char *argv[])
     int inputStreamActive = 1;
     int outputStreamActive = 1;
     while (inputStreamActive && outputStreamActive) {
-        ring_buffer_size_t availableInReadBuffer   = PaUtil_GetRingBufferReadAvailable(&inputData.rBufFromRT);
+        ring_buffer_size_t availableInReadBuffer   = PaUtil_GetRingBufferReadAvailable(&inputData->rBufFromRT);
         ring_buffer_size_t availableInWriteBuffer  = PaUtil_GetRingBufferWriteAvailable(&outputData->rBufToRT);
 
         inputStreamActive = Pa_IsStreamActive(inputStream);
@@ -275,7 +289,7 @@ int main(int argc, char *argv[])
             ring_buffer_size_t framesWritten;
             ring_buffer_size_t framesRead;
 
-            framesRead = PaUtil_ReadRingBuffer(&inputData.rBufFromRT, transferBuffer, availableInReadBuffer);
+            framesRead = PaUtil_ReadRingBuffer(&inputData->rBufFromRT, transferBuffer, availableInReadBuffer);
             //float *out = (float*)transferBuffer;
             //printf("%f\n", *out); // write first sample of the buffer
 
@@ -294,6 +308,8 @@ int main(int argc, char *argv[])
     err = Pa_StopStream(inputStream);
     CHK("Pa_StopStream Input", err);
 
+#if 0
+    //todo: move all cleanup in seperate functions
     if (outputData->rBufToRTData) {
         free(outputData->rBufToRTData);
     }
@@ -303,6 +319,7 @@ int main(int argc, char *argv[])
     if (transferBuffer) {
         free(transferBuffer);
     }
+#endif
 
     err = Pa_Terminate();
     CHK("Pa_Terminate", err);
