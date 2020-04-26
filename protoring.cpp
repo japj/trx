@@ -71,7 +71,7 @@ static int paWriteCallback(const void*                    inputBuffer,
     (void) inputBuffer; /* Prevent "unused variable" warnings. */
 
     /* Reset output data first */
-    memset(out, 0, framesPerBuffer * 2 * sizeof(float));
+    memset(out, 0, framesPerBuffer * 2 * sizeof(float)); // depends on channels and frameType
 
 #if 0
 
@@ -146,6 +146,7 @@ static int paReadCallback(const void*                     inputBuffer,
     if (framesPerBuffer <= availableWriteFramesInRingBuffer)
     {
         ring_buffer_size_t written = PaUtil_WriteRingBuffer(&data->rBufFromRT, inputBuffer, framesPerBuffer);
+        // check if fully written?
         return paContinue;
     }
 
@@ -191,22 +192,27 @@ int main(int argc, char *argv[])
     PaDeviceIndex outputDevice;
     unsigned int outputChannels = 2;
 
-    paWriteData writeData = {0};
+    paWriteData outputData = {0};
     long writeDataBufElementCount = 4096; // TODO: calculate optimal ringbuffer size
     long writeSampleSize = Pa_GetSampleSize(paFloat32);
-    writeData.rBufToRTData = valloc(writeSampleSize);
-    PaUtil_InitializeRingBuffer(&writeData.rBufToRT, writeSampleSize, writeDataBufElementCount, writeData.rBufToRTData);
+    outputData.rBufToRTData = valloc(writeSampleSize * writeDataBufElementCount);
+    PaUtil_InitializeRingBuffer(&outputData.rBufToRT, writeSampleSize, writeDataBufElementCount, outputData.rBufToRTData);
 
     /* input stream prepare */
     PaStream *inputStream;
     PaDeviceIndex inputDevice;
     unsigned int inputChannels = 1;
 
-    paReadData readData = {0};
+    paReadData inputData = {0};
     long readDataBufElementCount = 4096; // TODO: calculate optimal ringbuffer size
     long readSampleSize = Pa_GetSampleSize(paFloat32);
-    readData.rBufFromRTData = valloc(writeSampleSize);
-    PaUtil_InitializeRingBuffer(&readData.rBufFromRT, readSampleSize, readDataBufElementCount, readData.rBufFromRTData);
+    inputData.rBufFromRTData = valloc(readSampleSize * readDataBufElementCount);
+    PaUtil_InitializeRingBuffer(&inputData.rBufFromRT, readSampleSize, readDataBufElementCount, inputData.rBufFromRTData);
+
+    /* record/play transfer buffer */
+    long transferElementCount = 4096; // TODO: calculate optimal ringbuffer size
+    long transferSampleSize = Pa_GetSampleSize(paFloat32);
+    void *transferBuffer = valloc(transferSampleSize * transferElementCount);
 
     /* PortAudio setup*/
     err = Pa_Initialize();
@@ -218,7 +224,7 @@ int main(int argc, char *argv[])
 
     /* setup output device and stream */
     outputDevice = Pa_GetDefaultOutputDevice();
-    err = ProtoOpenWriteStream(&outputStream, rate, outputChannels, outputDevice, &writeData);
+    err = ProtoOpenWriteStream(&outputStream, rate, outputChannels, outputDevice, &outputData);
     CHK("ProtoOpenWriteStream", err);
 
     printf("Pa_StartStream Output\n");
@@ -227,7 +233,7 @@ int main(int argc, char *argv[])
 
     /* setup input device and stream */
     inputDevice = Pa_GetDefaultInputDevice();
-    err = ProtoOpenReadStream(&inputStream, rate, inputChannels, inputDevice, &readData);
+    err = ProtoOpenReadStream(&inputStream, rate, inputChannels, inputDevice, &inputData);
     CHK("ProtoOpenReadStream", err);
 
     printf("Pa_StartStream Input\n");
@@ -237,28 +243,46 @@ int main(int argc, char *argv[])
     int inputStreamActive = 1;
     int outputStreamActive = 1;
     while (inputStreamActive && outputStreamActive) {
-        ring_buffer_size_t availableWriteFramesInRingBuffer = PaUtil_GetRingBufferWriteAvailable(&readData.rBufFromRT);
+        ring_buffer_size_t availableInReadBuffer   = PaUtil_GetRingBufferReadAvailable(&inputData.rBufFromRT);
+        ring_buffer_size_t availableInWriteBuffer  = PaUtil_GetRingBufferWriteAvailable(&outputData.rBufToRT);
+
         inputStreamActive = Pa_IsStreamActive(inputStream);
-        printf("inputStreamActive: %d, availableWriteFramesInRingBuffer: %d ", inputStreamActive, availableWriteFramesInRingBuffer);
+        printf("inputStreamActive: %5d, availableInReadBuffer: %5d ", inputStreamActive, availableInReadBuffer);
         outputStreamActive = Pa_IsStreamActive(outputStream);
-        printf("outputStreamActive: %d", outputStreamActive);
+        printf("outputStreamActive: %5d, availableInWriteBuffer: %5d", outputStreamActive, availableInWriteBuffer);
         printf("\n");
+
+        // transfer from recording to playback
+        if (availableInWriteBuffer >= availableInReadBuffer)
+        {
+            ring_buffer_size_t framesWritten;
+            ring_buffer_size_t framesRead;
+
+            framesRead = PaUtil_ReadRingBuffer(&inputData.rBufFromRT, transferBuffer, availableInReadBuffer);
+
+            framesWritten = PaUtil_WriteRingBuffer(&outputData.rBufToRT, transferBuffer, framesRead);
+            printf("In->Output framesRead: %5d framesWritten: %5d", framesRead, framesWritten);
+        }
 
         usleep(2000);
     }
 
-
+    printf("Pa_StopStream Output\n");
     err = Pa_StopStream(outputStream);
     CHK("Pa_StopStream Output", err);
 
+    printf("Pa_StopStream Input\n");
     err = Pa_StopStream(inputStream);
     CHK("Pa_StopStream Input", err);
 
-    if (writeData.rBufToRTData) {
-        free(writeData.rBufToRTData);
+    if (outputData.rBufToRTData) {
+        free(outputData.rBufToRTData);
     }
-    if (readData.rBufFromRTData) {
-        free(readData.rBufFromRTData);
+    if (inputData.rBufFromRTData) {
+        free(inputData.rBufFromRTData);
+    }
+    if (transferBuffer) {
+        free(transferBuffer);
     }
 
     err = Pa_Terminate();
