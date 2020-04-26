@@ -44,3 +44,35 @@ WARNING: running audio apps from the vscode terminal does not give any sound!
 
   opusrtp seems to follow encoded rate (48kHz) to set timestamps -> causes timestamps in the future?
   ortp has payload profiles containing sample clockrate that is used by the jitter detection
+
+- protoring error -50:
+  ProtoOpenWriteStream information:
+  DeviceId:         3 (Scarlett Solo USB)
+  ChannelCount:     1
+  SuggestedLatency: 0.004558
+  InputLatency:     0.000000
+  OutputLatency:    0.008188
+  SampleRate:       48000
+  Pa_StartStream Output
+  ProtoOpenReadStream information:
+  DeviceId:         3 (Scarlett Solo USB)
+  ChannelCount:     1
+  SuggestedLatency: 0.010000
+  InputLatency:     0.056375
+  OutputLatency:    0.000000
+  SampleRate:       48000
+  Pa_StartStream Input
+  inputStreamActive:     1, availableInReadBuffer:     0 outputStreamActive:     1, availableInWriteBuffer:  4096
+  inputStreamActive:     1, availableInReadBuffer:     0 outputStreamActive:     1, availableInWriteBuffer:  4096
+  inputStreamActive:     1, availableInReadBuffer:     0 outputStreamActive:     1, availableInWriteBuffer:  4096
+  inputStreamActive:     1, availableInReadBuffer:     0 outputStreamActive:     1, availableInWriteBuffer:  4096
+  inputStreamActive:     1, availableInReadBuffer:     0 outputStreamActive:     1, availableInWriteBuffer:  4096
+  inputStreamActive:     1, availableInReadBuffer:   256 outputStreamActive:     1, availableInWriteBuffer:  4096
+  inputStreamActive:     1, availableInReadBuffer:     0 outputStreamActive:     1, availableInWriteBuffer:  3840
+  inputStreamActive:     1, availableInReadBuffer:   512 outputStreamActive:     1, availableInWriteBuffer:  4096
+  inputStreamActive:     1, availableInReadBuffer:     0 outputStreamActive:     1, availableInWriteBuffer:  3584
+  inputStreamActive:     1, availableInReadBuffer:     0 outputStreamActive:     1, availableInWriteBuffer:  3840
+  ||PaMacCore (AUHAL)|| Error on line 2490: err='-50', msg=Unknown Error
+  inputStreamActive:     0, availableInReadBuffer:   256 outputStreamActive:     1, availableInWriteBuffer:  4096
+  Pa_StopStream Output
+  Pa_StopStream Input
