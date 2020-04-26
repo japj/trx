@@ -46,6 +46,13 @@ typedef struct
     void*               rBufToRTData;
 } paWriteData;
 
+typedef struct
+{ 
+    /* Ring buffer (FIFO) for "communicating" from audio callback */
+    PaUtilRingBuffer    rBufFromRT;
+    void*               rBufFromRTData;
+} paReadData;
+
 /* This routine will be called by the PortAudio engine when audio is needed.
 ** It may called at interrupt level on some machines so don't do anything
 ** that could mess up the system like calling malloc() or free().
@@ -92,12 +99,12 @@ static int paWriteCallback(const void*                    inputBuffer,
 }
 
 int ProtoOpenWriteStream(PaStream **stream,
-		unsigned int rate, unsigned int channels, unsigned int device, paWriteData *pData)
+		unsigned int rate, unsigned int channels, unsigned int device, paWriteData *pWriteData)
 {
 	PaStreamParameters outputParameters;
     outputParameters.device = device;//Pa_GetDefaultOutputDevice();
 	outputParameters.channelCount = channels;
-	outputParameters.sampleFormat = paInt16;
+	outputParameters.sampleFormat = paFloat32;
 	outputParameters.suggestedLatency = Pa_GetDeviceInfo(outputParameters.device)->defaultLowOutputLatency;
 	outputParameters.hostApiSpecificStreamInfo = NULL;
 
@@ -109,7 +116,7 @@ int ProtoOpenWriteStream(PaStream **stream,
 							256, // frames per buffer
 							paNoFlag,
 							paWriteCallback,
-							pData
+							pWriteData
 	);
 	CHK("Pa_OpenDefaultStream", err);
 
@@ -118,13 +125,32 @@ int ProtoOpenWriteStream(PaStream **stream,
 	return 0;
 }
 
+/* This routine will be called by the PortAudio engine when audio is needed.
+** It may called at interrupt level on some machines so don't do anything
+** that could mess up the system like calling malloc() or free().
+*/
+static int paReadCallback(const void*                     inputBuffer,
+                          void*                           outputBuffer,
+                          unsigned long                   framesPerBuffer,
+			              const PaStreamCallbackTimeInfo* timeInfo,
+			              PaStreamCallbackFlags           statusFlags,
+                          void*                           userData)
+{
+    int i;
+    paReadData *data = (paReadData*)userData;
+    float *out = (float*)inputBuffer;
+    (void) outputBuffer; /* Prevent "unused variable" warnings. */
+
+    return paContinue;
+}
+
 int ProtoOpenReadStream(PaStream **stream,
-        unsigned int rate, unsigned int channels, unsigned int device)
+        unsigned int rate, unsigned int channels, unsigned int device, paReadData *pReadData)
 {
 	PaStreamParameters inputParameters;
     inputParameters.device = device,
 	inputParameters.channelCount = channels;
-	inputParameters.sampleFormat = paInt16;
+	inputParameters.sampleFormat = paFloat32;
 	inputParameters.suggestedLatency = Pa_GetDeviceInfo(inputParameters.device)->defaultLowInputLatency;
 	inputParameters.hostApiSpecificStreamInfo = NULL;
 
@@ -135,8 +161,8 @@ int ProtoOpenReadStream(PaStream **stream,
 							rate,
 							256,
 							paNoFlag,
-							NULL,
-							NULL
+							paReadCallback,
+							pReadData
 	);
 	CHK("ProtoOpenReadStream", err);
 
@@ -150,15 +176,10 @@ int main(int argc, char *argv[])
 	PaError err;
     unsigned int rate = 48000;
 
+    /* output stream prepare */
     PaStream *outputStream;
     PaDeviceIndex outputDevice;
     unsigned int outputChannels = 2;
-
-#if USE_INPUTSTREAM
-    PaStream *inputStream;
-    PaDeviceIndex inputDevice;
-    unsigned int inputChannels = 1;
-#endif
 
     paWriteData writeData = {0};
     long writeDataBufElementCount = 4096; // TODO: calculate optimal ringbuffer size
@@ -166,6 +187,18 @@ int main(int argc, char *argv[])
     writeData.rBufToRTData = valloc(writeSampleSize);
     PaUtil_InitializeRingBuffer(&writeData.rBufToRT, writeSampleSize, writeDataBufElementCount, writeData.rBufToRTData);
 
+    /* input stream prepare */
+    PaStream *inputStream;
+    PaDeviceIndex inputDevice;
+    unsigned int inputChannels = 1;
+
+    paReadData readData = {0};
+    long readDataBufElementCount = 4096; // TODO: calculate optimal ringbuffer size
+    long readSampleSize = Pa_GetSampleSize(paFloat32);
+    readData.rBufFromRTData = valloc(writeSampleSize);
+    PaUtil_InitializeRingBuffer(&readData.rBufFromRT, readSampleSize, readDataBufElementCount, readData.rBufFromRTData);
+
+    /* PortAudio setup*/
     err = Pa_Initialize();
 	if (err != paNoError)
 	{
@@ -173,9 +206,8 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
+    /* setup output device and stream */
     outputDevice = Pa_GetDefaultOutputDevice();
-
-
     err = ProtoOpenWriteStream(&outputStream, rate, outputChannels, outputDevice, &writeData);
     CHK("ProtoOpenWriteStream", err);
 
@@ -183,20 +215,18 @@ int main(int argc, char *argv[])
     err = Pa_StartStream(outputStream);
     CHK("Pa_StartStream Output", err);
 
-#if USE_INPUTSTREAM
+    /* setup input device and stream */
     inputDevice = Pa_GetDefaultInputDevice();
-    err = ProtoOpenReadStream(&inputStream, rate, inputChannels, inputDevice);
+    err = ProtoOpenReadStream(&inputStream, rate, inputChannels, inputDevice, &readData);
     CHK("ProtoOpenReadStream", err);
 
     printf("Pa_StartStream Input\n");
     err = Pa_StartStream(inputStream);
     CHK("Pa_StartStream Input", err);
-#endif
+
     while (true) {
-#if USE_INPUTSTREAM
         int inputStreamActive = Pa_IsStreamActive(inputStream);
         printf("inputStreamActive: %d ", inputStreamActive);
-#endif
         int outputStreamActive = Pa_IsStreamActive(outputStream);
         printf("outputStreamActive: %d", outputStreamActive);
         printf("\n");
