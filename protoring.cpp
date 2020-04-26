@@ -327,19 +327,38 @@ int main(int argc, char *argv[])
             // can only run opus encoding/decoding on 48000 samplerate
             if (rate == 48000) {
                 writeBufferPtr = opusDecodeBuffer;
-                int encodedPacketSize =   opus_encode_float(inputData->encoder, 
+
+                // use float32 or int16 opus encoder/decoder
+                if (sampleFormat == paFloat32) {
+                    int encodedPacketSize =   opus_encode_float(inputData->encoder, 
                                                     (float*)transferBuffer, 
                                                     opusMaxFrameSize, 
                                                     (unsigned char *)opusEncodeBuffer, 
                                                     bufferSize);
 
-                toWriteFrameCount = opus_decode_float(outputData->decoder,
+                    toWriteFrameCount = opus_decode_float(outputData->decoder,
                                                     (unsigned char *)opusEncodeBuffer,
                                                     encodedPacketSize,
                                                     (float *)opusDecodeBuffer,
                                                     opusMaxFrameSize,
                                                     0); // request in-band forward error correction
                                                         // TODO: this is 1 in rx when no packet was received/lost?
+                } else {
+                    int encodedPacketSize =   opus_encode(inputData->encoder, 
+                                                    (opus_int16*)transferBuffer, 
+                                                    opusMaxFrameSize, 
+                                                    (unsigned char *)opusEncodeBuffer, 
+                                                    bufferSize);
+
+                    toWriteFrameCount = opus_decode(outputData->decoder,
+                                                    (unsigned char *)opusEncodeBuffer,
+                                                    encodedPacketSize,
+                                                    (opus_int16 *)opusDecodeBuffer,
+                                                    opusMaxFrameSize,
+                                                    0); // request in-band forward error correction
+                                                        // TODO: this is 1 in rx when no packet was received/lost?   
+                }
+                
             }
             else {
                 writeBufferPtr = transferBuffer;
