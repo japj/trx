@@ -235,6 +235,7 @@ int main(int argc, char *argv[])
     long bufferElements = 4096; // TODO: calculate optimal ringbuffer size
     unsigned int inputChannels = 1;
     unsigned int outputChannels = 1; // since we are outputting the same data from input to output, needs to be the same channels now !
+    int opusMaxFrameSize = 120; // 2.5ms@48kHz number of samples per channel in the input signal
 
     /* PortAudio setup*/
     err = Pa_Initialize();
@@ -267,7 +268,10 @@ int main(int argc, char *argv[])
     /* record/play transfer buffer */
     long transferElementCount = bufferElements;
     long transferSampleSize = Pa_GetSampleSize(sampleFormat);
-    void *transferBuffer = valloc(transferSampleSize * transferElementCount);
+    long bufferSize = transferSampleSize * transferElementCount;
+    void *transferBuffer = valloc(bufferSize);
+    void *opusEncodeBuffer = valloc(bufferSize);
+    void *opusDecodeBuffer = valloc(bufferSize);
 
     /* setup output device and stream */
  
@@ -289,27 +293,48 @@ int main(int argc, char *argv[])
     int inputStreamActive = 1;
     int outputStreamActive = 1;
     while (inputStreamActive && outputStreamActive) {
-        ring_buffer_size_t availableInReadBuffer   = PaUtil_GetRingBufferReadAvailable(&inputData->rBufFromRT);
-        ring_buffer_size_t availableInWriteBuffer  = PaUtil_GetRingBufferWriteAvailable(&outputData->rBufToRT);
+        ring_buffer_size_t availableInInputBuffer   = PaUtil_GetRingBufferReadAvailable(&inputData->rBufFromRT);
+        ring_buffer_size_t availableToOutputBuffer  = PaUtil_GetRingBufferWriteAvailable(&outputData->rBufToRT);
 
         inputStreamActive = Pa_IsStreamActive(inputStream);
-        printf("inputStreamActive: %5d, availableInReadBuffer: %5d ", inputStreamActive, availableInReadBuffer);
+        printf("inputStreamActive: %5d, availableInInputBuffer: %5d ", inputStreamActive, availableInInputBuffer);
         outputStreamActive = Pa_IsStreamActive(outputStream);
-        printf("outputStreamActive: %5d, availableInWriteBuffer: %5d", outputStreamActive, availableInWriteBuffer);
+        printf("outputStreamActive: %5d, availableInOutputBuffer: %5d", outputStreamActive, availableToOutputBuffer);
         printf("\n");
 
-        // transfer from recording to playback
-        if (availableInWriteBuffer >= availableInReadBuffer)
+        // transfer from recording to playback by encode/decoding opus signals
+        // loop through input buffer in chunks of opusMaxFrameSize
+        while (availableInInputBuffer >= opusMaxFrameSize)
         {
             ring_buffer_size_t framesWritten;
             ring_buffer_size_t framesRead;
 
-            framesRead = PaUtil_ReadRingBuffer(&inputData->rBufFromRT, transferBuffer, availableInReadBuffer);
-            //float *out = (float*)transferBuffer;
-            //printf("%f\n", *out); // write first sample of the buffer
+            framesRead = PaUtil_ReadRingBuffer(&inputData->rBufFromRT, transferBuffer, opusMaxFrameSize);
 
-            framesWritten = PaUtil_WriteRingBuffer(&outputData->rBufToRT, transferBuffer, framesRead);
-            //printf("In->Output framesRead: %5d framesWritten: %5d", framesRead, framesWritten);
+            int encodedSize =   opus_encode_float(inputData->encoder, 
+                                                    (float*)transferBuffer, 
+                                                    opusMaxFrameSize, 
+                                                    (unsigned char *)opusEncodeBuffer, 
+                                                    bufferSize);
+
+            int decodedSize = opus_decode_float(outputData->decoder,
+                                                    (unsigned char *)opusEncodeBuffer,
+                                                    encodedSize,
+                                                    (float *)opusDecodeBuffer,
+                                                    opusMaxFrameSize,
+                                                    0); // request in-band forward error correction
+                                                        // TODO: this is 1 in rx when no packet was received/lost?
+
+            framesWritten = PaUtil_WriteRingBuffer(&outputData->rBufToRT, opusDecodeBuffer, decodedSize);
+
+            printf("In->Output availableInInputBuffer: %5d, encodedSize: %5d, decodedSize: %5d, framesWritten: %5d\n", 
+                                availableInInputBuffer, 
+                                encodedSize,
+                                decodedSize,
+                                framesWritten);
+
+            availableInInputBuffer   = PaUtil_GetRingBufferReadAvailable(&inputData->rBufFromRT); 
+            availableToOutputBuffer  = PaUtil_GetRingBufferWriteAvailable(&outputData->rBufToRT);
         }
 
         usleep(2000);
