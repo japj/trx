@@ -67,35 +67,21 @@ static int paWriteCallback(const void*                    inputBuffer,
 {
     int i;
     paWriteData *data = (paWriteData*)userData;
-    float *out = (float*)outputBuffer;
     (void) inputBuffer; /* Prevent "unused variable" warnings. */
 
     /* Reset output data first */
-    memset(out, 0, framesPerBuffer * 2 * sizeof(float)); // depends on channels and frameType
+    memset(outputBuffer, 0, framesPerBuffer * 2 * sizeof(float)); // depends on channels and frameType
 
-#if 0
+    ring_buffer_size_t availableInReadBuffer = PaUtil_GetRingBufferReadAvailable(&data->rBufToRT);
+    ring_buffer_size_t actualFramesRead = 0;
 
-    for (i = 0; i < 16; ++i)
-    {
-        /* Consume the input queue */
-        if (data->waves[i] == 0 && PaUtil_GetRingBufferReadAvailable(&data->rBufToRT))
-        {
-            OceanWave* ptr = 0;
-            PaUtil_ReadRingBuffer(&data->rBufToRT, &ptr, 1);
-            data->waves[i] = ptr;
-        }
-
-        if (data->waves[i] != 0)
-        {
-            if (GenerateWave(data->waves[i], out, framesPerBuffer))
-            {
-                /* If wave is "done", post it back to the main thread for deletion */
-                PaUtil_WriteRingBuffer(&data->rBufFromRT, &data->waves[i], 1);
-                data->waves[i] = 0;
-            }
-        }
+    if (availableInReadBuffer >= framesPerBuffer) {
+        actualFramesRead = PaUtil_ReadRingBuffer(&data->rBufToRT, outputBuffer, framesPerBuffer);
+        
+        // if actualFramesRead < framesPerBuffer then we read not enough data
     }
-#endif
+    
+    // if framesPerBuffer > availableInReadBuffer we have a buffer underrun
     return paContinue;
 }
 
