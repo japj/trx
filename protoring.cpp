@@ -93,7 +93,7 @@ static int paOutputCallback(const void*                    inputBuffer,
 }
 
 int ProtoOpenOutputStream(PaStream **stream,
-		unsigned int rate, unsigned int channels, unsigned int device, paOutputData *pWriteData, PaSampleFormat sampleFormat)
+		unsigned int rate, unsigned int channels, unsigned int device, paOutputData *pWriteData, PaSampleFormat sampleFormat, int framesPerBuffer)
 {
 	PaStreamParameters outputParameters;
     outputParameters.device = device;//Pa_GetDefaultOutputDevice();
@@ -107,7 +107,7 @@ int ProtoOpenOutputStream(PaStream **stream,
 							NULL,
 							&outputParameters,
 							rate,
-							256, // frames per buffer
+							framesPerBuffer,
 							paNoFlag,
 							paOutputCallback,
 							pWriteData
@@ -149,7 +149,7 @@ static int paInputCallback(const void*                    inputBuffer,
 }
 
 int ProtoOpenInputStream(PaStream **stream,
-        unsigned int rate, unsigned int channels, unsigned int device, paInputData *pReadData, PaSampleFormat sampleFormat)
+        unsigned int rate, unsigned int channels, unsigned int device, paInputData *pReadData, PaSampleFormat sampleFormat, int framesPerBuffer)
 {
 	PaStreamParameters inputParameters;
     inputParameters.device = device,
@@ -163,7 +163,7 @@ int ProtoOpenInputStream(PaStream **stream,
 							&inputParameters,
 							NULL,
 							rate,
-							256,
+							framesPerBuffer,
 							paNoFlag,
 							paInputCallback,
 							pReadData
@@ -236,7 +236,9 @@ int main(int argc, char *argv[])
     unsigned int inputChannels = 1;
     unsigned int outputChannels = 1; // since we are outputting the same data from input to output, needs to be the same channels now !
     int opusMaxFrameSize = 120; // 2.5ms@48kHz number of samples per channel in the input signal
-
+    int paCallbackFramesPerBuffer = 64; /* since opus decodes 120 frames, this is closests to how our latency is going to be
+                                        // frames per buffer for OS Audio buffer*/
+    
     /* PortAudio setup*/
     err = Pa_Initialize();
 	if (err != paNoError)
@@ -275,7 +277,7 @@ int main(int argc, char *argv[])
 
     /* setup output device and stream */
  
-    err = ProtoOpenOutputStream(&outputStream, rate, outputChannels, outputDevice, outputData, sampleFormat);
+    err = ProtoOpenOutputStream(&outputStream, rate, outputChannels, outputDevice, outputData, sampleFormat, paCallbackFramesPerBuffer);
     CHK("ProtoOpenOutputStream", err);
 
     printf("Pa_StartStream Output\n");
@@ -283,7 +285,7 @@ int main(int argc, char *argv[])
     CHK("Pa_StartStream Output", err);
 
     /* setup input device and stream */
-    err = ProtoOpenInputStream(&inputStream, rate, inputChannels, inputDevice, inputData, sampleFormat);
+    err = ProtoOpenInputStream(&inputStream, rate, inputChannels, inputDevice, inputData, sampleFormat, paCallbackFramesPerBuffer);
     CHK("ProtoOpenInputStream", err);
 
     printf("Pa_StartStream Input\n");
@@ -292,15 +294,20 @@ int main(int argc, char *argv[])
 
     int inputStreamActive = 1;
     int outputStreamActive = 1;
+
+#define DISPLAY_STATS 0
+
     while (inputStreamActive && outputStreamActive) {
         ring_buffer_size_t availableInInputBuffer   = PaUtil_GetRingBufferReadAvailable(&inputData->rBufFromRT);
         ring_buffer_size_t availableToOutputBuffer  = PaUtil_GetRingBufferWriteAvailable(&outputData->rBufToRT);
 
         inputStreamActive = Pa_IsStreamActive(inputStream);
-        printf("inputStreamActive: %5d, availableInInputBuffer: %5d ", inputStreamActive, availableInInputBuffer);
         outputStreamActive = Pa_IsStreamActive(outputStream);
+#if DISPLAY_STATS
+        printf("inputStreamActive: %5d, availableInInputBuffer: %5d ", inputStreamActive, availableInInputBuffer);
         printf("outputStreamActive: %5d, availableInOutputBuffer: %5d", outputStreamActive, availableToOutputBuffer);
         printf("\n");
+#endif
 
         // transfer from recording to playback by encode/decoding opus signals
         // loop through input buffer in chunks of opusMaxFrameSize
@@ -326,17 +333,19 @@ int main(int argc, char *argv[])
                                                         // TODO: this is 1 in rx when no packet was received/lost?
             framesWritten = PaUtil_WriteRingBuffer(&outputData->rBufToRT, opusDecodeBuffer, decodedFrameCount);
 
+#if DISPLAY_STATS
             printf("In->Output availableInInputBuffer: %5d, encodedPacketSize: %5d, decodedFrameCount: %5d, framesWritten: %5d\n", 
                                 availableInInputBuffer, 
                                 encodedPacketSize,
                                 decodedFrameCount,
                                 framesWritten);
+#endif
 
             availableInInputBuffer   = PaUtil_GetRingBufferReadAvailable(&inputData->rBufFromRT); 
             availableToOutputBuffer  = PaUtil_GetRingBufferWriteAvailable(&outputData->rBufToRT);
         }
 
-        usleep(2000);
+        usleep(500);
     }
 
     printf("Pa_StopStream Output\n");
