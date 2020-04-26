@@ -188,12 +188,14 @@ paOutputData* InitPaOutputData(PaSampleFormat sampleFormat, long bufferElements,
     od->frameSizeBytes = writeSampleSize;
     od->channels = outputChannels;
 
-    od->decoder = opus_decoder_create(rate, outputChannels, &err);
-	if (od->decoder == NULL) {
-		fprintf(stderr, "opus_decoder_create: %s\n",
-			opus_strerror(err));
-		return NULL;
-	}
+    if (rate == 48000) {
+        od->decoder = opus_decoder_create(rate, outputChannels, &err);
+        if (od->decoder == NULL) {
+            fprintf(stderr, "opus_decoder_create: %s\n",
+                opus_strerror(err));
+            return NULL;
+        }
+    }
 
     return od;
 }
@@ -211,13 +213,15 @@ paInputData* InitPaInputData(PaSampleFormat sampleFormat, long bufferElements, u
     id->frameSizeBytes = readSampleSize;
     id->channels = inputChannels;
 
-    id->encoder = opus_encoder_create(rate, inputChannels, OPUS_APPLICATION_AUDIO,
+    if (rate == 48000) {
+        id->encoder = opus_encoder_create(rate, inputChannels, OPUS_APPLICATION_AUDIO,
 				&err);
-	if (id->encoder == NULL) {
-		fprintf(stderr, "opus_encoder_create: %s\n",
-			opus_strerror(err));
-		return NULL;
-	}
+        if (id->encoder == NULL) {
+            fprintf(stderr, "opus_encoder_create: %s\n",
+                opus_strerror(err));
+            return NULL;
+        }
+    }
 
     return id;
 }
@@ -230,7 +234,7 @@ paInputData* InitPaInputData(PaSampleFormat sampleFormat, long bufferElements, u
 int main(int argc, char *argv[])
 {
 	PaError err;
-    unsigned int rate = 48000;
+    unsigned int rate = 44100;
     PaSampleFormat sampleFormat = paFloat32; //paFloat32 or paInt16;
     long bufferElements = 4096; // TODO: calculate optimal ringbuffer size
     unsigned int inputChannels = 1;
@@ -315,29 +319,40 @@ int main(int argc, char *argv[])
         {
             ring_buffer_size_t framesWritten;
             ring_buffer_size_t framesRead;
+            int toWriteFrameCount;
+            void *writeBufferPtr;
 
             framesRead = PaUtil_ReadRingBuffer(&inputData->rBufFromRT, transferBuffer, opusMaxFrameSize);
 
-            int encodedPacketSize =   opus_encode_float(inputData->encoder, 
+            // can only run opus encoding/decoding on 48000 samplerate
+            if (rate == 48000) {
+                writeBufferPtr = opusDecodeBuffer;
+                int encodedPacketSize =   opus_encode_float(inputData->encoder, 
                                                     (float*)transferBuffer, 
                                                     opusMaxFrameSize, 
                                                     (unsigned char *)opusEncodeBuffer, 
                                                     bufferSize);
 
-            int decodedFrameCount = opus_decode_float(outputData->decoder,
+                toWriteFrameCount = opus_decode_float(outputData->decoder,
                                                     (unsigned char *)opusEncodeBuffer,
                                                     encodedPacketSize,
                                                     (float *)opusDecodeBuffer,
                                                     opusMaxFrameSize,
                                                     0); // request in-band forward error correction
                                                         // TODO: this is 1 in rx when no packet was received/lost?
-            framesWritten = PaUtil_WriteRingBuffer(&outputData->rBufToRT, opusDecodeBuffer, decodedFrameCount);
+            }
+            else {
+                writeBufferPtr = transferBuffer;
+                toWriteFrameCount = framesRead;
+            }
+         
+            framesWritten = PaUtil_WriteRingBuffer(&outputData->rBufToRT, writeBufferPtr, toWriteFrameCount);
 
 #if DISPLAY_STATS
-            printf("In->Output availableInInputBuffer: %5d, encodedPacketSize: %5d, decodedFrameCount: %5d, framesWritten: %5d\n", 
+            printf("In->Output availableInInputBuffer: %5d, encodedPacketSize: %5d, toWriteFrameCount: %5d, framesWritten: %5d\n", 
                                 availableInInputBuffer, 
                                 encodedPacketSize,
-                                decodedFrameCount,
+                                toWriteFrameCount,
                                 framesWritten);
 #endif
 
