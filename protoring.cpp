@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <memory.h>
+#include <stdlib.h>
 #include "portaudio.h"
 #include "pa_ringbuffer.h"
 //#include "pa_util.h"
@@ -233,14 +234,31 @@ int main(int argc, char *argv[])
     err = Pa_StartStream(inputStream);
     CHK("Pa_StartStream Input", err);
 
-    while (true) {
-        int inputStreamActive = Pa_IsStreamActive(inputStream);
-        printf("inputStreamActive: %d ", inputStreamActive);
-        int outputStreamActive = Pa_IsStreamActive(outputStream);
+    int inputStreamActive = 1;
+    int outputStreamActive = 1;
+    while (inputStreamActive && outputStreamActive) {
+        ring_buffer_size_t availableWriteFramesInRingBuffer = PaUtil_GetRingBufferWriteAvailable(&readData.rBufFromRT);
+        inputStreamActive = Pa_IsStreamActive(inputStream);
+        printf("inputStreamActive: %d, availableWriteFramesInRingBuffer: %d ", inputStreamActive, availableWriteFramesInRingBuffer);
+        outputStreamActive = Pa_IsStreamActive(outputStream);
         printf("outputStreamActive: %d", outputStreamActive);
         printf("\n");
 
-        sleep(1);
+        usleep(2000);
+    }
+
+
+    err = Pa_StopStream(outputStream);
+    CHK("Pa_StopStream Output", err);
+
+    err = Pa_StopStream(inputStream);
+    CHK("Pa_StopStream Input", err);
+
+    if (writeData.rBufToRTData) {
+        free(writeData.rBufToRTData);
+    }
+    if (readData.rBufFromRTData) {
+        free(readData.rBufFromRTData);
     }
 
     err = Pa_Terminate();
