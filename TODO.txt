@@ -1,3 +1,5 @@
+WARNING: running audio apps from the vscode terminal does not give any sound!
+
 - portaudio use callback to record data
   - possibly use ringbuffer mechanism?
 

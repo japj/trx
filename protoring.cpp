@@ -82,7 +82,7 @@ static int paWriteCallback(const void*                    inputBuffer,
         
         // if actualFramesRead < framesPerBuffer then we read not enough data
     }
-    
+
     // if framesPerBuffer > availableInReadBuffer we have a buffer underrun
     return paContinue;
 }
@@ -174,14 +174,24 @@ int main(int argc, char *argv[])
 {
 	PaError err;
     unsigned int rate = 48000;
-    PaSampleFormat sampleFormat = paFloat32;
+    PaSampleFormat sampleFormat = paFloat32; //paFloat32 or paInt16;
     long bufferElements = 4096; // TODO: calculate optimal ringbuffer size
     unsigned int inputChannels = 1;
     unsigned int outputChannels = 1; // since we are outputting the same data from input to output, needs to be the same channels now !
 
+    /* PortAudio setup*/
+    err = Pa_Initialize();
+	if (err != paNoError)
+	{
+		printf("PortAudio error: %s \n", Pa_GetErrorText(err));
+		return -1;
+	}
+    PaDeviceIndex  outputDevice = Pa_GetDefaultOutputDevice();
+    PaDeviceIndex  inputDevice  = Pa_GetDefaultInputDevice();
+
+
     /* output stream prepare */
     PaStream *outputStream;
-    PaDeviceIndex outputDevice;
 
     paWriteData outputData = {0};
     long writeDataBufElementCount = bufferElements;
@@ -193,7 +203,6 @@ int main(int argc, char *argv[])
 
     /* input stream prepare */
     PaStream *inputStream;
-    PaDeviceIndex inputDevice;
 
     paReadData inputData = {0};
     long readDataBufElementCount = bufferElements;
@@ -206,16 +215,8 @@ int main(int argc, char *argv[])
     long transferSampleSize = Pa_GetSampleSize(sampleFormat);
     void *transferBuffer = valloc(transferSampleSize * transferElementCount);
 
-    /* PortAudio setup*/
-    err = Pa_Initialize();
-	if (err != paNoError)
-	{
-		printf("PortAudio error: %s \n", Pa_GetErrorText(err));
-		return -1;
-	}
-
     /* setup output device and stream */
-    outputDevice = Pa_GetDefaultOutputDevice();
+ 
     err = ProtoOpenWriteStream(&outputStream, rate, outputChannels, outputDevice, &outputData, sampleFormat);
     CHK("ProtoOpenWriteStream", err);
 
@@ -224,7 +225,6 @@ int main(int argc, char *argv[])
     CHK("Pa_StartStream Output", err);
 
     /* setup input device and stream */
-    inputDevice = Pa_GetDefaultInputDevice();
     err = ProtoOpenReadStream(&inputStream, rate, inputChannels, inputDevice, &inputData, sampleFormat);
     CHK("ProtoOpenReadStream", err);
 
@@ -251,9 +251,11 @@ int main(int argc, char *argv[])
             ring_buffer_size_t framesRead;
 
             framesRead = PaUtil_ReadRingBuffer(&inputData.rBufFromRT, transferBuffer, availableInReadBuffer);
+            //float *out = (float*)transferBuffer;
+            //printf("%f\n", *out); // write first sample of the buffer
 
             framesWritten = PaUtil_WriteRingBuffer(&outputData.rBufToRT, transferBuffer, framesRead);
-            printf("In->Output framesRead: %5d framesWritten: %5d", framesRead, framesWritten);
+            //printf("In->Output framesRead: %5d framesWritten: %5d", framesRead, framesWritten);
         }
 
         usleep(2000);
