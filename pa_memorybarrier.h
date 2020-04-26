@@ -61,6 +61,10 @@
  ****************/
 
 #if defined(__APPLE__)
+#if defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED < 101200
+   /*
+    * OSMemoryBarrier() is deprecated as of macOS 10.12. Only use it if on a version where it's not deprecated
+    */
 #   include <libkern/OSAtomic.h>
     /* Here are the memory barrier functions. Mac OS X only provides
        full memory barriers, so the three types of barriers are the same,
@@ -68,6 +72,12 @@
 #   define PaUtil_FullMemoryBarrier()  OSMemoryBarrier()
 #   define PaUtil_ReadMemoryBarrier()  OSMemoryBarrier()
 #   define PaUtil_WriteMemoryBarrier() OSMemoryBarrier()
+#else
+#   include <stdatomic.h>
+#   define PaUtil_FullMemoryBarrier()  atomic_thread_fence(memory_order_seq_cst)
+#   define PaUtil_ReadMemoryBarrier()  atomic_thread_fence(memory_order_seq_cst)
+#   define PaUtil_WriteMemoryBarrier() atomic_thread_fence(memory_order_seq_cst)
+#endif
 #elif defined(__GNUC__)
     /* GCC >= 4.1 has built-in intrinsics. We'll use those */
 #   if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 1)
