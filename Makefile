@@ -24,7 +24,9 @@ LDLIBS += $(LDLIBS_ASOUND) $(LDLIBS_OPUS) $(LDLIBS_ORTP) $(LDLIBS_PORTAUDIO)
 
 .PHONY:		all install dist clean
 
-all:		rx tx detect
+all:		rx tx detect protoring
+
+protoring: protoring.o pa_ringbuffer.o
 
 detect: detect.o
 
@@ -43,6 +45,6 @@ dist:
 			gzip > "dist/trx-$$V.tar.gz"
 
 clean:
-		rm -f *.o *.d tx rx
+		rm -f *.o *.d tx rx detect protoring
 
 -include *.d
