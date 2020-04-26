@@ -48,6 +48,7 @@ typedef struct
     void*               rBufToRTData;
     int                 frameSizeBytes;
     int                 channels;
+    OpusDecoder*        decoder;
 } paOutputData;
 
 typedef struct
@@ -57,6 +58,7 @@ typedef struct
     void*               rBufFromRTData;
     int                 frameSizeBytes;
     int                 channels;
+    OpusEncoder*        encoder;
 } paInputData;
 
 /* This routine will be called by the PortAudio engine when audio is needed.
@@ -173,7 +175,7 @@ int ProtoOpenInputStream(PaStream **stream,
 	return 0;
 }
 
-paOutputData* InitPaOutputData(PaSampleFormat sampleFormat, long bufferElements, unsigned int outputChannels)
+paOutputData* InitPaOutputData(PaSampleFormat sampleFormat, long bufferElements, unsigned int outputChannels, unsigned int rate)
 {
     int err;
     paOutputData *od = (paOutputData *)valloc(sizeof(paOutputData));
@@ -186,10 +188,17 @@ paOutputData* InitPaOutputData(PaSampleFormat sampleFormat, long bufferElements,
     od->frameSizeBytes = writeSampleSize;
     od->channels = outputChannels;
 
+    od->decoder = opus_decoder_create(rate, outputChannels, &err);
+	if (od->decoder == NULL) {
+		fprintf(stderr, "opus_decoder_create: %s\n",
+			opus_strerror(err));
+		return NULL;
+	}
+
     return od;
 }
 
-paInputData* InitPaInputData(PaSampleFormat sampleFormat, long bufferElements, unsigned int inputChannels)
+paInputData* InitPaInputData(PaSampleFormat sampleFormat, long bufferElements, unsigned int inputChannels, unsigned int rate)
 {
     int err;
     paInputData *id = (paInputData *)valloc(sizeof(paInputData));
@@ -202,22 +211,20 @@ paInputData* InitPaInputData(PaSampleFormat sampleFormat, long bufferElements, u
     id->frameSizeBytes = readSampleSize;
     id->channels = inputChannels;
 
+    id->encoder = opus_encoder_create(rate, inputChannels, OPUS_APPLICATION_AUDIO,
+				&err);
+	if (id->encoder == NULL) {
+		fprintf(stderr, "opus_encoder_create: %s\n",
+			opus_strerror(err));
+		return NULL;
+	}
+
     return id;
 }
 
 /*
-    / setup opus encoder/decoder /
-    OpusEncoder *encoder;
-	encoder = opus_encoder_create(rate, inputChannels, OPUS_APPLICATION_AUDIO,
-				&err);
-	if (encoder == NULL) {
-		fprintf(stderr, "opus_encoder_create: %s\n",
-			opus_strerror(err));
-		return -1;
-	}
-
     // cleanup
-        opus_encoder_destroy(encoder);
+        
 */
 
 int main(int argc, char *argv[])
@@ -242,12 +249,20 @@ int main(int argc, char *argv[])
     /* output stream prepare */
     PaStream *outputStream;
 
-    paOutputData *outputData = InitPaOutputData(sampleFormat, bufferElements, outputChannels);
+    paOutputData *outputData = InitPaOutputData(sampleFormat, bufferElements, outputChannels, rate);
+    if (outputData == NULL){
+        printf("InitPaOutputData error\n");
+        return -1;
+    }
 
     /* input stream prepare */
     PaStream *inputStream;
 
-    paInputData *inputData = InitPaInputData(sampleFormat, bufferElements, inputChannels);
+    paInputData *inputData = InitPaInputData(sampleFormat, bufferElements, inputChannels, rate);
+    if (inputData == NULL){
+        printf("InitPaInputData error\n");
+        return -1;
+    }
 
     /* record/play transfer buffer */
     long transferElementCount = bufferElements;
@@ -319,6 +334,8 @@ int main(int argc, char *argv[])
     if (transferBuffer) {
         free(transferBuffer);
     }
+
+    opus_encoder_destroy(encoder);
 #endif
 
     err = Pa_Terminate();
