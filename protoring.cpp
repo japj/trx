@@ -36,8 +36,8 @@ void log_pa_stream_info(PaStream *stream, PaStreamParameters *params)
 	printf("DeviceId:         %d (%s)\n", params->device, deviceInfo->name);
 	printf("ChannelCount:     %d\n", params->channelCount);
 	printf("SuggestedLatency: %f\n", params->suggestedLatency);
-	printf("InputLatency:     %f\n", streamInfo->inputLatency);
-	printf("OutputLatency:    %f\n", streamInfo->outputLatency);
+	printf("InputLatency:     %20f (%5.f samples)\n", streamInfo->inputLatency, streamInfo->inputLatency * streamInfo->sampleRate);
+	printf("OutputLatency:    %20f (%5.f samples)\n", streamInfo->outputLatency, streamInfo->outputLatency * streamInfo->sampleRate);
 	printf("SampleRate:       %.f\n", streamInfo->sampleRate);
 }
 
