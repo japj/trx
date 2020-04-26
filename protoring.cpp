@@ -234,7 +234,7 @@ paInputData* InitPaInputData(PaSampleFormat sampleFormat, long bufferElements, u
 int main(int argc, char *argv[])
 {
 	PaError err;
-    unsigned int rate = 44100;
+    unsigned int rate = 48000; //48000 enables opus enc/decoding, but some devices are 44100 which results in resampling + bigger input latency
     PaSampleFormat sampleFormat = paFloat32; //paFloat32 or paInt16;
     long bufferElements = 4096; // TODO: calculate optimal ringbuffer size
     unsigned int inputChannels = 1;
