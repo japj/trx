@@ -311,26 +311,25 @@ int main(int argc, char *argv[])
 
             framesRead = PaUtil_ReadRingBuffer(&inputData->rBufFromRT, transferBuffer, opusMaxFrameSize);
 
-            int encodedSize =   opus_encode_float(inputData->encoder, 
+            int encodedPacketSize =   opus_encode_float(inputData->encoder, 
                                                     (float*)transferBuffer, 
                                                     opusMaxFrameSize, 
                                                     (unsigned char *)opusEncodeBuffer, 
                                                     bufferSize);
 
-            int decodedSize = opus_decode_float(outputData->decoder,
+            int decodedFrameCount = opus_decode_float(outputData->decoder,
                                                     (unsigned char *)opusEncodeBuffer,
-                                                    encodedSize,
+                                                    encodedPacketSize,
                                                     (float *)opusDecodeBuffer,
                                                     opusMaxFrameSize,
                                                     0); // request in-band forward error correction
                                                         // TODO: this is 1 in rx when no packet was received/lost?
+            framesWritten = PaUtil_WriteRingBuffer(&outputData->rBufToRT, opusDecodeBuffer, decodedFrameCount);
 
-            framesWritten = PaUtil_WriteRingBuffer(&outputData->rBufToRT, opusDecodeBuffer, decodedSize);
-
-            printf("In->Output availableInInputBuffer: %5d, encodedSize: %5d, decodedSize: %5d, framesWritten: %5d\n", 
+            printf("In->Output availableInInputBuffer: %5d, encodedPacketSize: %5d, decodedFrameCount: %5d, framesWritten: %5d\n", 
                                 availableInInputBuffer, 
-                                encodedSize,
-                                decodedSize,
+                                encodedPacketSize,
+                                decodedFrameCount,
                                 framesWritten);
 
             availableInInputBuffer   = PaUtil_GetRingBufferReadAvailable(&inputData->rBufFromRT); 
