@@ -1,3 +1,22 @@
+NOTE 2020-04-28:
+This repo contains a (start of a) port of trx to portaudio as part of
+prototyping work for project "rehearsal20".
+
+As such, this port is not finished, but gave meaningfull insights and ideas
+to rewrite my whole portaudio record/playback engine for low latency purposes.
+The low latency portaudio engine work will continue in another project that 
+will also be a nodejs native addon and this repo will be archived for history
+and note taking purposes.
+
+-----------------------------------------------------------------------
+This is a port of trx to portaudio so it can be used on more platforms.
+
+Status:
+- Mac: runs, see also TODO.txt for more details
+- Windows: not ported yet (needs also libortp libs)
+
+
+ORIGINAL README:
 trx: Realtime audio over IP
 
 (C) Copyright 2020 Mark Hills <mark@xwax.org>

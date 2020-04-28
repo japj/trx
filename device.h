@@ -21,9 +21,20 @@
 #define DEVICE_H
 
 void aerror(const char *msg, int r);
+
+#ifdef USE_ALSA
 int set_alsa_hw(snd_pcm_t *pcm,
 		unsigned int rate, unsigned int channels,
 		unsigned int buffer);
 int set_alsa_sw(snd_pcm_t *pcm);
+#endif
+
+#ifdef USE_PORTAUDIO
+int open_pa_writestream(PaStream **stream,
+		unsigned int rate, unsigned int channels, unsigned int device);
+
+int open_pa_readstream(PaStream **stream,
+		unsigned int rate, unsigned int channels, unsigned int device);
+#endif
 
 #endif

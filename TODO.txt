@@ -1,0 +1,78 @@
+WARNING: running audio apps from the vscode terminal does not give any sound!
+
+- portaudio use callback to record data
+  - possibly use ringbuffer mechanism?
+
+- mac check using float32, since PA uses it internally
+  - opus supports _float versions of encode/decode 
+- mac rx lots of "timestamp in the future detected"
+- mac tx Pa Input overflowed issues
+
+- PA duplex callback might give better latency?
+  - requires tx/rx "in one"
+- PA patches at audacity that are not in master portaudio tree
+  - portmixer support
+  - ringbuffer
+  - several windows patches (jack/wasapi/mme/>16bit MME&DirectSound)
+
+- default_addr :: -> 0.0.0.0
+- update default port audio device detection (remove default macro)
+- check portaudio support on linux
+
+- check connect_mode to receive from all other hosts
+  - single rx for multiple tx?
+
+- portaudio check all playback/record devices
+  - latency/quality of different devices
+  
+- check ortp on windows?
+
+
+- opusenc
+  encoding options determine how opusrtp will send (e.g. framesize!)
+  ./opusenc ~/Documents/02\ King\ of\ Anything.wav test.opus --framesize 2.5 --bitrate 64
+  ./rx -d 2 -m 2
+
+  max framesize opusenc=60ms:
+  ./opusenc ~/Documents/02\ King\ of\ Anything.wav test.opus --framesize 60 --bitrate 128
+  ./rx -d 2 -m 60
+
+- opusrtp
+  trx uses default type of 1, opusrtp uses default 120, so explicitly set it
+  ./opusrtp -p 50050 test.opus -t 0 -c 1
+
+
+  opusrtp seems to follow encoded rate (48kHz) to set timestamps -> causes timestamps in the future?
+  ortp has payload profiles containing sample clockrate that is used by the jitter detection
+
+- protoring error -50:
+  ProtoOpenWriteStream information:
+  DeviceId:         3 (Scarlett Solo USB)
+  ChannelCount:     1
+  SuggestedLatency: 0.004558
+  InputLatency:     0.000000
+  OutputLatency:    0.008188
+  SampleRate:       48000
+  Pa_StartStream Output
+  ProtoOpenReadStream information:
+  DeviceId:         3 (Scarlett Solo USB)
+  ChannelCount:     1
+  SuggestedLatency: 0.010000
+  InputLatency:     0.056375
+  OutputLatency:    0.000000
+  SampleRate:       48000
+  Pa_StartStream Input
+  inputStreamActive:     1, availableInReadBuffer:     0 outputStreamActive:     1, availableInWriteBuffer:  4096
+  inputStreamActive:     1, availableInReadBuffer:     0 outputStreamActive:     1, availableInWriteBuffer:  4096
+  inputStreamActive:     1, availableInReadBuffer:     0 outputStreamActive:     1, availableInWriteBuffer:  4096
+  inputStreamActive:     1, availableInReadBuffer:     0 outputStreamActive:     1, availableInWriteBuffer:  4096
+  inputStreamActive:     1, availableInReadBuffer:     0 outputStreamActive:     1, availableInWriteBuffer:  4096
+  inputStreamActive:     1, availableInReadBuffer:   256 outputStreamActive:     1, availableInWriteBuffer:  4096
+  inputStreamActive:     1, availableInReadBuffer:     0 outputStreamActive:     1, availableInWriteBuffer:  3840
+  inputStreamActive:     1, availableInReadBuffer:   512 outputStreamActive:     1, availableInWriteBuffer:  4096
+  inputStreamActive:     1, availableInReadBuffer:     0 outputStreamActive:     1, availableInWriteBuffer:  3584
+  inputStreamActive:     1, availableInReadBuffer:     0 outputStreamActive:     1, availableInWriteBuffer:  3840
+  ||PaMacCore (AUHAL)|| Error on line 2490: err='-50', msg=Unknown Error
+  inputStreamActive:     0, availableInReadBuffer:   256 outputStreamActive:     1, availableInWriteBuffer:  4096
+  Pa_StopStream Output
+  Pa_StopStream Input

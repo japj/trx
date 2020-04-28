@@ -18,7 +18,12 @@
  */
 
 #include <stdio.h>
+#ifdef USE_ALSA
 #include <alsa/asoundlib.h>
+#endif
+#ifdef USE_PORTAUDIO
+#include "portaudio.h"
+#endif
 
 #define CHK(call, r) { \
 	if (r < 0) { \
@@ -31,10 +36,16 @@ void aerror(const char *msg, int r)
 {
 	fputs(msg, stderr);
 	fputs(": ", stderr);
+#ifdef USE_ALSA
 	fputs(snd_strerror(r), stderr);
+#endif
+#ifdef USE_PORTAUDIO
+	fputs(Pa_GetErrorText(r), stderr);
+#endif
 	fputc('\n', stderr);
 }
 
+#ifdef USE_ALSA
 int set_alsa_hw(snd_pcm_t *pcm,
 		unsigned int rate, unsigned int channels,
 		unsigned int buffer)
@@ -71,7 +82,9 @@ int set_alsa_hw(snd_pcm_t *pcm,
 
 	return 0;
 }
+#endif
 
+#ifdef USE_ALSA
 int set_alsa_sw(snd_pcm_t *pcm)
 {
 	int r;
@@ -95,3 +108,92 @@ int set_alsa_sw(snd_pcm_t *pcm)
 	return 0;
 
 }
+#endif
+
+#ifdef USE_PORTAUDIO
+
+void log_pa_stream_info(PaStream *stream, PaStreamParameters *params)
+{
+
+	const PaDeviceInfo *deviceInfo;
+	deviceInfo = Pa_GetDeviceInfo(params->device);
+	printf("PaDevice(%d), name(%s)\n", params->device, deviceInfo->name);
+	printf("ChannelCount(%d)\n", params->channelCount);
+	printf("SuggestedLatency(%f)\n", params->suggestedLatency);
+
+	const PaStreamInfo *streamInfo;
+	streamInfo = Pa_GetStreamInfo(stream);
+
+	printf("InputLatency(%f)\n", streamInfo->inputLatency);
+	printf("OutputLatency(%f)\n", streamInfo->outputLatency);
+	printf("SampleRate(%f)\n", streamInfo->sampleRate);
+	
+}
+
+int open_pa_writestream(PaStream **stream,
+		unsigned int rate, unsigned int channels, unsigned int device)
+{
+	PaStreamParameters outputParameters;
+    outputParameters.device = device;//Pa_GetDefaultOutputDevice();
+	outputParameters.channelCount = channels;
+	outputParameters.sampleFormat = paInt16;
+	outputParameters.suggestedLatency = Pa_GetDeviceInfo(outputParameters.device)->defaultLowOutputLatency;
+	outputParameters.hostApiSpecificStreamInfo = NULL;
+
+	//unsigned int framesPerBuffer;
+	//framesPerBuffer = (rate / 1000) * 2;
+	PaError err;
+	err = Pa_OpenStream(	stream,
+							NULL,
+							&outputParameters,
+							rate,
+							256,
+							paClipOff,
+							NULL,
+							NULL
+	);
+	CHK("Pa_OpenDefaultStream", err);
+
+	printf("open_pa_writestream information:\n");
+	log_pa_stream_info(*stream, &outputParameters);
+	//const PaDeviceInfo *deviceInfo;
+	//deviceInfo = Pa_GetDeviceInfo(outputParameters.device);
+	//printf("open_pa_writestream Pa Device(%d), name(%s)\n", outputParameters.device, deviceInfo->name);
+
+	return 0;
+}
+
+int open_pa_readstream(PaStream **stream,
+		unsigned int rate, unsigned int channels, unsigned int device)
+{
+	PaStreamParameters inputParameters;
+    inputParameters.device = device, //Pa_GetDefaultInputDevice();
+	inputParameters.channelCount = channels;
+	inputParameters.sampleFormat = paInt16;
+	inputParameters.suggestedLatency = Pa_GetDeviceInfo(inputParameters.device)->defaultLowInputLatency;
+	inputParameters.hostApiSpecificStreamInfo = NULL;
+
+	//unsigned int framesPerBuffer;
+	//framesPerBuffer = (rate / 1000) * 2;
+	PaError err;
+	err = Pa_OpenStream(	stream,
+							&inputParameters,
+							NULL,
+							rate,
+							256,
+							paClipOff,
+							NULL,
+							NULL
+	);
+	CHK("Pa_OpenDefaultStream", err);
+
+	printf("open_pa_readstream information:\n");
+	log_pa_stream_info(*stream, &inputParameters);
+
+	//const PaDeviceInfo *deviceInfo;
+	//deviceInfo = Pa_GetDeviceInfo(inputParameters.device);
+	//printf("open_pa_readstream Pa Device(%d), name(%s)\n", inputParameters.device, deviceInfo->name);
+
+	return 0;
+}
+#endif

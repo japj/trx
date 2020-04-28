@@ -27,6 +27,7 @@
 
 int go_realtime(void)
 {
+#ifdef LINUX
 	int max_pri;
 	struct sched_param sp;
 
@@ -47,6 +48,7 @@ int go_realtime(void)
 		perror("sched_setscheduler");
 		return -1;
 	}
+#endif
 
 	return 0;
 }
@@ -54,7 +56,8 @@ int go_realtime(void)
 int go_daemon(const char *pid_file)
 {
 	FILE *f;
-
+	
+#ifdef LINUX
 	if (daemon(0, 0) == -1) {
 		perror("daemon");
 		return -1;
@@ -75,6 +78,7 @@ int go_daemon(const char *pid_file)
 		perror("fclose");
 		return -1;
 	}
+#endif
 
 	return 0;
 }

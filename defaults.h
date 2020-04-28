@@ -1,18 +1,27 @@
 #ifndef DEFAULTS_H
 #define DEFAULTS_H
 
+#ifdef USE_ALSA
 #define DEFAULT_DEVICE "default"
-#define DEFAULT_BUFFER 16
+#endif
+#define DEFAULT_BUFFER 2
 
+#ifdef LINUX
 #define DEFAULT_ADDR "::"
-#define DEFAULT_PORT 1350
-#define DEFAULT_FRAME 960
-#define DEFAULT_JITTER 16
+#else
+#define DEFAULT_ADDR "0.0.0.0"
+#endif
+#define DEFAULT_PORT 50050
+#define DEFAULT_FRAME 120
+#define DEFAULT_JITTER 4
 
 #define DEFAULT_RATE 48000
-#define DEFAULT_CHANNELS 2
+#define DEFAULT_INPUTCHANNELS 1
+#define DEFAULT_OUTPUTCHANNELS 2
 #define DEFAULT_BITRATE 128
 
 #define DEFAULT_VERBOSE 1
 
+#define STATS_INTERVAL_MS 5000
+#define TIMED_SELECT_INTERVAL 1
 #endif

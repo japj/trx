@@ -1,0 +1,840 @@
+2020-04-25 17:28:13:190 ortp-message-RtpSession bound to [0.0.0.0] ports [50050] [49735]
+2020-04-25 17:28:13:190 ortp-message-RtpSession bound to [0.0.0.0] ports [50050] [49735]
+open_pa_writestream information:
+PaDevice(2), name(HDMI)
+ChannelCount(2)
+SuggestedLatency(0.001437)
+InputLatency(0.000000)
+OutputLatency(0.026771)
+SampleRate(48000.000000)
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 2880, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 5760, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 8640, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 11520, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 14400, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 17280, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 20160, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 23040, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 25920, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 28800, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 31680, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 34560, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 37440, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 40320, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 43200, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 46080, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 48960, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 51840, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 54720, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 57600, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 60480, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 63360, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 66240, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 69120, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 72000, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 74880, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 77760, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 80640, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 83520, have_more: 0
+2020-04-25 17:28:14:950 ortp-message-First estimation
+2020-04-25 17:28:14:950 ortp-message-First estimation
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 86400, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 0, ts: 89280, have_more: 0
+packetsize: 1160
+play_one_frame, decoded_size:2880, packet_size: 1160, ts: 92160, have_more: 0
+2020-04-25 17:28:15:126 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:15:126 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1160, ts: 95040, have_more: 0
+packetsize: 929
+play_one_frame, decoded_size:2880, packet_size: 929, ts: 97920, have_more: 0
+2020-04-25 17:28:15:249 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:15:249 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 929, ts: 100800, have_more: 0
+packetsize: 893
+play_one_frame, decoded_size:2880, packet_size: 893, ts: 103680, have_more: 0
+2020-04-25 17:28:15:366 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:15:366 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 893, ts: 106560, have_more: 0
+packetsize: 923
+play_one_frame, decoded_size:2880, packet_size: 923, ts: 109440, have_more: 0
+2020-04-25 17:28:15:490 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:15:490 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 923, ts: 112320, have_more: 0
+packetsize: 1092
+play_one_frame, decoded_size:2880, packet_size: 1092, ts: 115200, have_more: 0
+2020-04-25 17:28:15:601 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:15:601 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1092, ts: 118080, have_more: 0
+packetsize: 967
+play_one_frame, decoded_size:2880, packet_size: 967, ts: 120960, have_more: 0
+2020-04-25 17:28:15:727 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:15:727 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 967, ts: 123840, have_more: 0
+packetsize: 1051
+play_one_frame, decoded_size:2880, packet_size: 1051, ts: 126720, have_more: 0
+2020-04-25 17:28:15:841 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:15:841 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1051, ts: 129600, have_more: 0
+packetsize: 1008
+play_one_frame, decoded_size:2880, packet_size: 1008, ts: 132480, have_more: 0
+2020-04-25 17:28:15:966 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:15:966 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1008, ts: 135360, have_more: 0
+packetsize: 1072
+play_one_frame, decoded_size:2880, packet_size: 1072, ts: 138240, have_more: 0
+2020-04-25 17:28:16:086 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:16:086 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1072, ts: 141120, have_more: 0
+packetsize: 994
+play_one_frame, decoded_size:2880, packet_size: 994, ts: 144000, have_more: 0
+2020-04-25 17:28:16:209 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:16:209 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 994, ts: 146880, have_more: 0
+packetsize: 999
+play_one_frame, decoded_size:2880, packet_size: 999, ts: 149760, have_more: 0
+2020-04-25 17:28:16:321 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:16:321 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 999, ts: 152640, have_more: 0
+packetsize: 955
+play_one_frame, decoded_size:2880, packet_size: 955, ts: 155520, have_more: 0
+2020-04-25 17:28:16:444 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:16:444 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 955, ts: 158400, have_more: 0
+packetsize: 1043
+play_one_frame, decoded_size:2880, packet_size: 1043, ts: 161280, have_more: 0
+2020-04-25 17:28:16:561 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:16:561 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1043, ts: 164160, have_more: 0
+packetsize: 1319
+play_one_frame, decoded_size:2880, packet_size: 1319, ts: 167040, have_more: 0
+2020-04-25 17:28:16:683 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:16:684 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1319, ts: 169920, have_more: 0
+packetsize: 1062
+play_one_frame, decoded_size:2880, packet_size: 1062, ts: 172800, have_more: 0
+2020-04-25 17:28:16:806 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:16:806 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1062, ts: 175680, have_more: 0
+packetsize: 990
+play_one_frame, decoded_size:2880, packet_size: 990, ts: 178560, have_more: 0
+2020-04-25 17:28:16:923 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:16:923 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 990, ts: 181440, have_more: 0
+packetsize: 912
+play_one_frame, decoded_size:2880, packet_size: 912, ts: 184320, have_more: 0
+2020-04-25 17:28:17:046 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:17:046 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 912, ts: 187200, have_more: 0
+packetsize: 1184
+play_one_frame, decoded_size:2880, packet_size: 1184, ts: 190080, have_more: 0
+2020-04-25 17:28:17:169 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:17:169 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1184, ts: 192960, have_more: 0
+packetsize: 945
+play_one_frame, decoded_size:2880, packet_size: 945, ts: 195840, have_more: 0
+2020-04-25 17:28:17:286 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:17:286 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 945, ts: 198720, have_more: 0
+packetsize: 909
+play_one_frame, decoded_size:2880, packet_size: 909, ts: 201600, have_more: 0
+2020-04-25 17:28:17:407 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:17:407 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 909, ts: 204480, have_more: 0
+packetsize: 1065
+play_one_frame, decoded_size:2880, packet_size: 1065, ts: 207360, have_more: 0
+2020-04-25 17:28:17:521 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:17:521 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1065, ts: 210240, have_more: 0
+packetsize: 1488
+play_one_frame, decoded_size:2880, packet_size: 1488, ts: 213120, have_more: 0
+2020-04-25 17:28:17:647 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:17:647 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1488, ts: 216000, have_more: 0
+packetsize: 1075
+play_one_frame, decoded_size:2880, packet_size: 1075, ts: 218880, have_more: 0
+2020-04-25 17:28:17:763 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:17:763 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1075, ts: 221760, have_more: 0
+packetsize: 1088
+play_one_frame, decoded_size:2880, packet_size: 1088, ts: 224640, have_more: 0
+2020-04-25 17:28:17:885 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:17:885 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1088, ts: 227520, have_more: 0
+packetsize: 1101
+play_one_frame, decoded_size:2880, packet_size: 1101, ts: 230400, have_more: 0
+2020-04-25 17:28:18:001 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:18:001 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1101, ts: 233280, have_more: 0
+packetsize: 1293
+play_one_frame, decoded_size:2880, packet_size: 1293, ts: 236160, have_more: 0
+2020-04-25 17:28:18:124 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:18:124 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1293, ts: 239040, have_more: 0
+packetsize: 1033
+play_one_frame, decoded_size:2880, packet_size: 1033, ts: 241920, have_more: 0
+
+
+2020-04-25 17:28:18:246 ortp-message-===========================================================
+2020-04-25 17:28:18:246 ortp-message-===========================================================
+2020-04-25 17:28:18:246 ortp-message-Global statistics
+2020-04-25 17:28:18:246 ortp-message-Global statistics
+2020-04-25 17:28:18:246 ortp-message------------------------------------------------------------
+2020-04-25 17:28:18:246 ortp-message------------------------------------------------------------
+2020-04-25 17:28:18:246 ortp-message-sent                                          0 packets
+2020-04-25 17:28:18:246 ortp-message-sent                                          0 packets
+2020-04-25 17:28:18:246 ortp-message-                                              0 duplicated packets
+2020-04-25 17:28:18:246 ortp-message-                                              0 duplicated packets
+2020-04-25 17:28:18:246 ortp-message-                                              0 bytes  
+2020-04-25 17:28:18:246 ortp-message-                                              0 bytes  
+2020-04-25 17:28:18:246 ortp-message-received                                     56 packets
+2020-04-25 17:28:18:246 ortp-message-received                                     56 packets
+2020-04-25 17:28:18:246 ortp-message-                                              0 duplicated packets
+2020-04-25 17:28:18:246 ortp-message-                                              0 duplicated packets
+2020-04-25 17:28:18:246 ortp-message-                                          60094 bytes  
+2020-04-25 17:28:18:246 ortp-message-                                          60094 bytes  
+2020-04-25 17:28:18:246 ortp-message-incoming delivered to the app             28874 bytes  
+2020-04-25 17:28:18:246 ortp-message-incoming delivered to the app             28874 bytes  
+2020-04-25 17:28:18:246 ortp-message-incoming cumulative lost                      0 packets
+2020-04-25 17:28:18:246 ortp-message-incoming cumulative lost                      0 packets
+2020-04-25 17:28:18:247 ortp-message-incoming received too late                    0 packets
+2020-04-25 17:28:18:247 ortp-message-incoming received too late                    0 packets
+2020-04-25 17:28:18:247 ortp-message-incoming bad formatted                        0 packets
+2020-04-25 17:28:18:247 ortp-message-incoming bad formatted                        0 packets
+2020-04-25 17:28:18:247 ortp-message-incoming discarded (queue overflow)           0 packets
+2020-04-25 17:28:18:247 ortp-message-incoming discarded (queue overflow)           0 packets
+2020-04-25 17:28:18:247 ortp-message-sent rtcp                                     0 packets
+2020-04-25 17:28:18:247 ortp-message-sent rtcp                                     0 packets
+2020-04-25 17:28:18:247 ortp-message-received rtcp                                 0 packets
+2020-04-25 17:28:18:247 ortp-message-received rtcp                                 0 packets
+2020-04-25 17:28:18:247 ortp-message-===========================================================
+2020-04-25 17:28:18:247 ortp-message-===========================================================
+
+
+2020-04-25 17:28:18:247 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:18:247 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1033, ts: 244800, have_more: 0
+packetsize: 996
+play_one_frame, decoded_size:2880, packet_size: 996, ts: 247680, have_more: 0
+2020-04-25 17:28:18:369 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:18:369 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 996, ts: 250560, have_more: 0
+packetsize: 999
+play_one_frame, decoded_size:2880, packet_size: 999, ts: 253440, have_more: 0
+2020-04-25 17:28:18:486 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:18:486 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 999, ts: 256320, have_more: 0
+packetsize: 1045
+play_one_frame, decoded_size:2880, packet_size: 1045, ts: 259200, have_more: 0
+2020-04-25 17:28:18:607 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:18:607 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1045, ts: 262080, have_more: 0
+packetsize: 978
+play_one_frame, decoded_size:2880, packet_size: 978, ts: 264960, have_more: 0
+2020-04-25 17:28:18:727 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:18:727 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 978, ts: 267840, have_more: 0
+packetsize: 1025
+play_one_frame, decoded_size:2880, packet_size: 1025, ts: 270720, have_more: 0
+2020-04-25 17:28:18:849 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:18:849 ortp-warning-rtp_parse: timestamp jump in the future detected.
+packetsize: 940
+play_one_frame, decoded_size:2880, packet_size: 940, ts: 273600, have_more: 0
+packetsize: 940
+play_one_frame, decoded_size:2880, packet_size: 940, ts: 276480, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 940, ts: 279360, have_more: 0
+2020-04-25 17:28:19:025 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:19:025 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 940, ts: 282240, have_more: 0
+packetsize: 1149
+play_one_frame, decoded_size:2880, packet_size: 1149, ts: 285120, have_more: 0
+2020-04-25 17:28:19:143 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:19:143 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1149, ts: 288000, have_more: 0
+packetsize: 1010
+play_one_frame, decoded_size:2880, packet_size: 1010, ts: 290880, have_more: 0
+2020-04-25 17:28:19:270 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:19:270 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1010, ts: 293760, have_more: 0
+packetsize: 938
+play_one_frame, decoded_size:2880, packet_size: 938, ts: 296640, have_more: 0
+2020-04-25 17:28:19:388 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:19:388 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 938, ts: 299520, have_more: 0
+packetsize: 971
+play_one_frame, decoded_size:2880, packet_size: 971, ts: 302400, have_more: 0
+2020-04-25 17:28:19:505 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:19:505 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 971, ts: 305280, have_more: 0
+packetsize: 1488
+play_one_frame, decoded_size:2880, packet_size: 1488, ts: 308160, have_more: 0
+2020-04-25 17:28:19:628 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:19:628 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1488, ts: 311040, have_more: 0
+packetsize: 993
+play_one_frame, decoded_size:2880, packet_size: 993, ts: 313920, have_more: 0
+2020-04-25 17:28:19:750 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:19:750 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 993, ts: 316800, have_more: 0
+packetsize: 1070
+play_one_frame, decoded_size:2880, packet_size: 1070, ts: 319680, have_more: 0
+2020-04-25 17:28:19:862 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:19:862 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1070, ts: 322560, have_more: 0
+packetsize: 1043
+play_one_frame, decoded_size:2880, packet_size: 1043, ts: 325440, have_more: 0
+2020-04-25 17:28:19:985 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:19:985 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1043, ts: 328320, have_more: 0
+packetsize: 1012
+play_one_frame, decoded_size:2880, packet_size: 1012, ts: 331200, have_more: 0
+2020-04-25 17:28:20:108 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:20:108 ortp-warning-rtp_parse: timestamp jump in the future detected.
+packetsize: 1075
+play_one_frame, decoded_size:2880, packet_size: 1075, ts: 334080, have_more: 0
+packetsize: 1078
+play_one_frame, decoded_size:2880, packet_size: 1078, ts: 336960, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 1078, ts: 339840, have_more: 0
+2020-04-25 17:28:20:284 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:20:284 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1078, ts: 342720, have_more: 0
+packetsize: 946
+play_one_frame, decoded_size:2880, packet_size: 946, ts: 345600, have_more: 0
+2020-04-25 17:28:20:402 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:20:402 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 946, ts: 348480, have_more: 0
+packetsize: 999
+play_one_frame, decoded_size:2880, packet_size: 999, ts: 351360, have_more: 0
+2020-04-25 17:28:20:529 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:20:529 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 999, ts: 354240, have_more: 0
+packetsize: 1204
+play_one_frame, decoded_size:2880, packet_size: 1204, ts: 357120, have_more: 0
+2020-04-25 17:28:20:646 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:20:646 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1204, ts: 360000, have_more: 0
+packetsize: 1025
+play_one_frame, decoded_size:2880, packet_size: 1025, ts: 362880, have_more: 0
+2020-04-25 17:28:20:764 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:20:764 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1025, ts: 365760, have_more: 0
+packetsize: 1019
+play_one_frame, decoded_size:2880, packet_size: 1019, ts: 368640, have_more: 0
+2020-04-25 17:28:20:886 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:20:886 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1019, ts: 371520, have_more: 0
+packetsize: 932
+play_one_frame, decoded_size:2880, packet_size: 932, ts: 374400, have_more: 0
+2020-04-25 17:28:21:008 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:21:008 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 932, ts: 377280, have_more: 0
+packetsize: 871
+play_one_frame, decoded_size:2880, packet_size: 871, ts: 380160, have_more: 0
+2020-04-25 17:28:21:126 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:21:126 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 871, ts: 383040, have_more: 0
+packetsize: 980
+play_one_frame, decoded_size:2880, packet_size: 980, ts: 385920, have_more: 0
+2020-04-25 17:28:21:249 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:21:249 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 980, ts: 388800, have_more: 0
+packetsize: 922
+play_one_frame, decoded_size:2880, packet_size: 922, ts: 391680, have_more: 0
+2020-04-25 17:28:21:366 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:21:366 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 922, ts: 394560, have_more: 0
+packetsize: 970
+play_one_frame, decoded_size:2880, packet_size: 970, ts: 397440, have_more: 0
+2020-04-25 17:28:21:489 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:21:489 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 970, ts: 400320, have_more: 0
+packetsize: 1141
+play_one_frame, decoded_size:2880, packet_size: 1141, ts: 403200, have_more: 0
+2020-04-25 17:28:21:606 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:21:606 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1141, ts: 406080, have_more: 0
+packetsize: 1038
+play_one_frame, decoded_size:2880, packet_size: 1038, ts: 408960, have_more: 0
+2020-04-25 17:28:21:729 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:21:729 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1038, ts: 411840, have_more: 0
+packetsize: 1038
+play_one_frame, decoded_size:2880, packet_size: 1038, ts: 414720, have_more: 0
+2020-04-25 17:28:21:841 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:21:841 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1038, ts: 417600, have_more: 0
+packetsize: 939
+play_one_frame, decoded_size:2880, packet_size: 939, ts: 420480, have_more: 0
+2020-04-25 17:28:21:965 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:21:965 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 939, ts: 423360, have_more: 0
+packetsize: 900
+play_one_frame, decoded_size:2880, packet_size: 900, ts: 426240, have_more: 0
+2020-04-25 17:28:22:081 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:22:081 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 900, ts: 429120, have_more: 0
+packetsize: 1001
+play_one_frame, decoded_size:2880, packet_size: 1001, ts: 432000, have_more: 0
+2020-04-25 17:28:22:204 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:22:204 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1001, ts: 434880, have_more: 0
+packetsize: 997
+play_one_frame, decoded_size:2880, packet_size: 997, ts: 437760, have_more: 0
+2020-04-25 17:28:22:323 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:22:323 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 997, ts: 440640, have_more: 0
+packetsize: 1038
+play_one_frame, decoded_size:2880, packet_size: 1038, ts: 443520, have_more: 0
+2020-04-25 17:28:22:449 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:22:449 ortp-warning-rtp_parse: timestamp jump in the future detected.
+packetsize: 989
+play_one_frame, decoded_size:2880, packet_size: 989, ts: 446400, have_more: 0
+packetsize: 1399
+play_one_frame, decoded_size:2880, packet_size: 1399, ts: 449280, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 1399, ts: 452160, have_more: 0
+2020-04-25 17:28:22:630 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:22:630 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1399, ts: 455040, have_more: 0
+packetsize: 917
+play_one_frame, decoded_size:2880, packet_size: 917, ts: 457920, have_more: 0
+2020-04-25 17:28:22:748 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:22:748 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 917, ts: 460800, have_more: 0
+packetsize: 928
+play_one_frame, decoded_size:2880, packet_size: 928, ts: 463680, have_more: 0
+2020-04-25 17:28:22:870 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:22:871 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 928, ts: 466560, have_more: 0
+packetsize: 919
+play_one_frame, decoded_size:2880, packet_size: 919, ts: 469440, have_more: 0
+2020-04-25 17:28:22:988 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:22:988 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 919, ts: 472320, have_more: 0
+packetsize: 868
+play_one_frame, decoded_size:2880, packet_size: 868, ts: 475200, have_more: 0
+2020-04-25 17:28:23:110 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:23:110 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 868, ts: 478080, have_more: 0
+packetsize: 877
+play_one_frame, decoded_size:2880, packet_size: 877, ts: 480960, have_more: 0
+2020-04-25 17:28:23:226 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:23:226 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 877, ts: 483840, have_more: 0
+
+
+2020-04-25 17:28:23:282 ortp-message-===========================================================
+2020-04-25 17:28:23:282 ortp-message-===========================================================
+2020-04-25 17:28:23:282 ortp-message-Global statistics
+2020-04-25 17:28:23:282 ortp-message-Global statistics
+2020-04-25 17:28:23:282 ortp-message------------------------------------------------------------
+2020-04-25 17:28:23:282 ortp-message------------------------------------------------------------
+2020-04-25 17:28:23:282 ortp-message-sent                                          0 packets
+2020-04-25 17:28:23:282 ortp-message-sent                                          0 packets
+2020-04-25 17:28:23:282 ortp-message-                                              0 duplicated packets
+2020-04-25 17:28:23:282 ortp-message-                                              0 duplicated packets
+2020-04-25 17:28:23:282 ortp-message-                                              0 bytes  
+2020-04-25 17:28:23:282 ortp-message-                                              0 bytes  
+2020-04-25 17:28:23:282 ortp-message-received                                    140 packets
+2020-04-25 17:28:23:282 ortp-message-received                                    140 packets
+2020-04-25 17:28:23:282 ortp-message-                                              0 duplicated packets
+2020-04-25 17:28:23:282 ortp-message-                                              0 duplicated packets
+2020-04-25 17:28:23:283 ortp-message-                                         147573 bytes  
+2020-04-25 17:28:23:283 ortp-message-                                         147573 bytes  
+2020-04-25 17:28:23:283 ortp-message-incoming delivered to the app             72997 bytes  
+2020-04-25 17:28:23:283 ortp-message-incoming delivered to the app             72997 bytes  
+2020-04-25 17:28:23:283 ortp-message-incoming cumulative lost                      0 packets
+2020-04-25 17:28:23:283 ortp-message-incoming cumulative lost                      0 packets
+2020-04-25 17:28:23:283 ortp-message-incoming received too late                    0 packets
+2020-04-25 17:28:23:283 ortp-message-incoming received too late                    0 packets
+2020-04-25 17:28:23:283 ortp-message-incoming bad formatted                        0 packets
+2020-04-25 17:28:23:283 ortp-message-incoming bad formatted                        0 packets
+2020-04-25 17:28:23:283 ortp-message-incoming discarded (queue overflow)           0 packets
+2020-04-25 17:28:23:283 ortp-message-incoming discarded (queue overflow)           0 packets
+2020-04-25 17:28:23:283 ortp-message-sent rtcp                                     0 packets
+2020-04-25 17:28:23:283 ortp-message-sent rtcp                                     0 packets
+2020-04-25 17:28:23:283 ortp-message-received rtcp                                 0 packets
+2020-04-25 17:28:23:283 ortp-message-received rtcp                                 0 packets
+2020-04-25 17:28:23:283 ortp-message-===========================================================
+2020-04-25 17:28:23:283 ortp-message-===========================================================
+
+
+packetsize: 856
+play_one_frame, decoded_size:2880, packet_size: 856, ts: 486720, have_more: 0
+2020-04-25 17:28:23:350 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:23:350 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 856, ts: 489600, have_more: 0
+packetsize: 891
+play_one_frame, decoded_size:2880, packet_size: 891, ts: 492480, have_more: 0
+2020-04-25 17:28:23:468 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:23:468 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 891, ts: 495360, have_more: 0
+packetsize: 894
+play_one_frame, decoded_size:2880, packet_size: 894, ts: 498240, have_more: 0
+2020-04-25 17:28:23:590 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:23:590 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 894, ts: 501120, have_more: 0
+packetsize: 922
+play_one_frame, decoded_size:2880, packet_size: 922, ts: 504000, have_more: 0
+2020-04-25 17:28:23:708 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:23:708 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 922, ts: 506880, have_more: 0
+packetsize: 922
+play_one_frame, decoded_size:2880, packet_size: 922, ts: 509760, have_more: 0
+2020-04-25 17:28:23:827 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:23:827 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 922, ts: 512640, have_more: 0
+packetsize: 941
+play_one_frame, decoded_size:2880, packet_size: 941, ts: 515520, have_more: 0
+2020-04-25 17:28:23:945 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:23:945 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 941, ts: 518400, have_more: 0
+packetsize: 918
+play_one_frame, decoded_size:2880, packet_size: 918, ts: 521280, have_more: 0
+2020-04-25 17:28:24:065 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:24:065 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 918, ts: 524160, have_more: 0
+packetsize: 1081
+play_one_frame, decoded_size:2880, packet_size: 1081, ts: 527040, have_more: 0
+2020-04-25 17:28:24:188 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:24:188 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1081, ts: 529920, have_more: 0
+packetsize: 1025
+play_one_frame, decoded_size:2880, packet_size: 1025, ts: 532800, have_more: 0
+2020-04-25 17:28:24:306 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:24:306 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1025, ts: 535680, have_more: 0
+packetsize: 985
+play_one_frame, decoded_size:2880, packet_size: 985, ts: 538560, have_more: 0
+2020-04-25 17:28:24:422 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:24:422 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 985, ts: 541440, have_more: 0
+packetsize: 931
+play_one_frame, decoded_size:2880, packet_size: 931, ts: 544320, have_more: 0
+2020-04-25 17:28:24:550 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:24:551 ortp-warning-rtp_parse: timestamp jump in the future detected.
+packetsize: 964
+play_one_frame, decoded_size:2880, packet_size: 964, ts: 547200, have_more: 0
+packetsize: 935
+play_one_frame, decoded_size:2880, packet_size: 935, ts: 550080, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 935, ts: 552960, have_more: 0
+2020-04-25 17:28:24:721 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:24:721 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 935, ts: 555840, have_more: 0
+packetsize: 1138
+play_one_frame, decoded_size:2880, packet_size: 1138, ts: 558720, have_more: 0
+2020-04-25 17:28:24:844 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:24:844 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1138, ts: 561600, have_more: 0
+packetsize: 1104
+play_one_frame, decoded_size:2880, packet_size: 1104, ts: 564480, have_more: 0
+2020-04-25 17:28:24:961 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:24:961 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1104, ts: 567360, have_more: 0
+packetsize: 1029
+play_one_frame, decoded_size:2880, packet_size: 1029, ts: 570240, have_more: 0
+2020-04-25 17:28:25:086 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:25:086 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1029, ts: 573120, have_more: 0
+packetsize: 862
+play_one_frame, decoded_size:2880, packet_size: 862, ts: 576000, have_more: 0
+2020-04-25 17:28:25:206 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:25:206 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 862, ts: 578880, have_more: 0
+packetsize: 1082
+play_one_frame, decoded_size:2880, packet_size: 1082, ts: 581760, have_more: 0
+2020-04-25 17:28:25:325 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:25:325 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1082, ts: 584640, have_more: 0
+packetsize: 1018
+play_one_frame, decoded_size:2880, packet_size: 1018, ts: 587520, have_more: 0
+2020-04-25 17:28:25:446 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:25:446 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1018, ts: 590400, have_more: 0
+packetsize: 950
+play_one_frame, decoded_size:2880, packet_size: 950, ts: 593280, have_more: 0
+packetsize: 1082
+play_one_frame, decoded_size:2880, packet_size: 1082, ts: 596160, have_more: 0
+2020-04-25 17:28:25:628 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:25:628 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1082, ts: 599040, have_more: 0
+packetsize: 938
+play_one_frame, decoded_size:2880, packet_size: 938, ts: 601920, have_more: 0
+2020-04-25 17:28:25:750 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:25:751 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 938, ts: 604800, have_more: 0
+packetsize: 947
+play_one_frame, decoded_size:2880, packet_size: 947, ts: 607680, have_more: 0
+2020-04-25 17:28:25:868 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:25:868 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 947, ts: 610560, have_more: 0
+packetsize: 1014
+play_one_frame, decoded_size:2880, packet_size: 1014, ts: 613440, have_more: 0
+2020-04-25 17:28:25:989 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:25:989 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1014, ts: 616320, have_more: 0
+packetsize: 1068
+play_one_frame, decoded_size:2880, packet_size: 1068, ts: 619200, have_more: 0
+2020-04-25 17:28:26:107 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:26:107 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1068, ts: 622080, have_more: 0
+packetsize: 892
+play_one_frame, decoded_size:2880, packet_size: 892, ts: 624960, have_more: 0
+2020-04-25 17:28:26:225 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:26:225 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 892, ts: 627840, have_more: 0
+packetsize: 986
+play_one_frame, decoded_size:2880, packet_size: 986, ts: 630720, have_more: 0
+2020-04-25 17:28:26:347 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:26:347 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 986, ts: 633600, have_more: 0
+packetsize: 967
+play_one_frame, decoded_size:2880, packet_size: 967, ts: 636480, have_more: 0
+2020-04-25 17:28:26:467 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:26:467 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 967, ts: 639360, have_more: 0
+packetsize: 1082
+play_one_frame, decoded_size:2880, packet_size: 1082, ts: 642240, have_more: 0
+2020-04-25 17:28:26:588 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:26:588 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1082, ts: 645120, have_more: 0
+packetsize: 1045
+play_one_frame, decoded_size:2880, packet_size: 1045, ts: 648000, have_more: 0
+2020-04-25 17:28:26:705 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:26:705 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1045, ts: 650880, have_more: 0
+packetsize: 937
+play_one_frame, decoded_size:2880, packet_size: 937, ts: 653760, have_more: 0
+2020-04-25 17:28:26:824 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:26:824 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 937, ts: 656640, have_more: 0
+packetsize: 986
+play_one_frame, decoded_size:2880, packet_size: 986, ts: 659520, have_more: 0
+2020-04-25 17:28:26:951 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:26:951 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 986, ts: 662400, have_more: 0
+packetsize: 872
+play_one_frame, decoded_size:2880, packet_size: 872, ts: 665280, have_more: 0
+2020-04-25 17:28:27:062 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:27:062 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 872, ts: 668160, have_more: 0
+packetsize: 1123
+play_one_frame, decoded_size:2880, packet_size: 1123, ts: 671040, have_more: 0
+2020-04-25 17:28:27:185 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:27:185 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1123, ts: 673920, have_more: 0
+packetsize: 1111
+play_one_frame, decoded_size:2880, packet_size: 1111, ts: 676800, have_more: 0
+2020-04-25 17:28:27:309 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:27:309 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1111, ts: 679680, have_more: 0
+packetsize: 1224
+play_one_frame, decoded_size:2880, packet_size: 1224, ts: 682560, have_more: 0
+2020-04-25 17:28:27:431 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:27:431 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1224, ts: 685440, have_more: 0
+packetsize: 1206
+play_one_frame, decoded_size:2880, packet_size: 1206, ts: 688320, have_more: 0
+2020-04-25 17:28:27:543 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:27:543 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1206, ts: 691200, have_more: 0
+packetsize: 1348
+play_one_frame, decoded_size:2880, packet_size: 1348, ts: 694080, have_more: 0
+2020-04-25 17:28:27:666 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:27:666 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1348, ts: 696960, have_more: 0
+packetsize: 929
+play_one_frame, decoded_size:2880, packet_size: 929, ts: 699840, have_more: 0
+2020-04-25 17:28:27:788 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:27:788 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 929, ts: 702720, have_more: 0
+packetsize: 1133
+play_one_frame, decoded_size:2880, packet_size: 1133, ts: 705600, have_more: 0
+2020-04-25 17:28:27:910 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:27:911 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1133, ts: 708480, have_more: 0
+packetsize: 1459
+play_one_frame, decoded_size:2880, packet_size: 1459, ts: 711360, have_more: 0
+2020-04-25 17:28:28:027 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:28:027 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1459, ts: 714240, have_more: 0
+packetsize: 1150
+play_one_frame, decoded_size:2880, packet_size: 1150, ts: 717120, have_more: 0
+2020-04-25 17:28:28:148 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:28:148 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1150, ts: 720000, have_more: 0
+packetsize: 930
+play_one_frame, decoded_size:2880, packet_size: 930, ts: 722880, have_more: 0
+2020-04-25 17:28:28:266 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:28:266 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 930, ts: 725760, have_more: 0
+
+
+2020-04-25 17:28:28:326 ortp-message-===========================================================
+2020-04-25 17:28:28:327 ortp-message-===========================================================
+2020-04-25 17:28:28:327 ortp-message-Global statistics
+2020-04-25 17:28:28:327 ortp-message-Global statistics
+2020-04-25 17:28:28:327 ortp-message------------------------------------------------------------
+2020-04-25 17:28:28:327 ortp-message------------------------------------------------------------
+2020-04-25 17:28:28:327 ortp-message-sent                                          0 packets
+2020-04-25 17:28:28:327 ortp-message-sent                                          0 packets
+2020-04-25 17:28:28:327 ortp-message-                                              0 duplicated packets
+2020-04-25 17:28:28:327 ortp-message-                                              0 duplicated packets
+2020-04-25 17:28:28:327 ortp-message-                                              0 bytes  
+2020-04-25 17:28:28:327 ortp-message-                                              0 bytes  
+2020-04-25 17:28:28:327 ortp-message-received                                    224 packets
+2020-04-25 17:28:28:327 ortp-message-received                                    224 packets
+2020-04-25 17:28:28:327 ortp-message-                                              0 duplicated packets
+2020-04-25 17:28:28:327 ortp-message-                                              0 duplicated packets
+2020-04-25 17:28:28:327 ortp-message-                                         234646 bytes  
+2020-04-25 17:28:28:327 ortp-message-                                         234646 bytes  
+2020-04-25 17:28:28:327 ortp-message-incoming delivered to the app            117390 bytes  
+2020-04-25 17:28:28:327 ortp-message-incoming delivered to the app            117390 bytes  
+2020-04-25 17:28:28:327 ortp-message-incoming cumulative lost                      0 packets
+2020-04-25 17:28:28:327 ortp-message-incoming cumulative lost                      0 packets
+2020-04-25 17:28:28:327 ortp-message-incoming received too late                    0 packets
+2020-04-25 17:28:28:327 ortp-message-incoming received too late                    0 packets
+2020-04-25 17:28:28:327 ortp-message-incoming bad formatted                        0 packets
+2020-04-25 17:28:28:327 ortp-message-incoming bad formatted                        0 packets
+2020-04-25 17:28:28:327 ortp-message-incoming discarded (queue overflow)           0 packets
+2020-04-25 17:28:28:327 ortp-message-incoming discarded (queue overflow)           0 packets
+2020-04-25 17:28:28:327 ortp-message-sent rtcp                                     0 packets
+2020-04-25 17:28:28:327 ortp-message-sent rtcp                                     0 packets
+2020-04-25 17:28:28:327 ortp-message-received rtcp                                 0 packets
+2020-04-25 17:28:28:327 ortp-message-received rtcp                                 0 packets
+2020-04-25 17:28:28:327 ortp-message-===========================================================
+2020-04-25 17:28:28:327 ortp-message-===========================================================
+
+
+packetsize: 1321
+play_one_frame, decoded_size:2880, packet_size: 1321, ts: 728640, have_more: 0
+2020-04-25 17:28:28:391 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:28:391 ortp-warning-rtp_parse: timestamp jump in the future detected.
+packetsize: 1030
+play_one_frame, decoded_size:2880, packet_size: 1030, ts: 731520, have_more: 0
+packetsize: 1052
+play_one_frame, decoded_size:2880, packet_size: 1052, ts: 734400, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 1052, ts: 737280, have_more: 0
+2020-04-25 17:28:28:562 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:28:562 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1052, ts: 740160, have_more: 0
+packetsize: 1237
+play_one_frame, decoded_size:2880, packet_size: 1237, ts: 743040, have_more: 0
+2020-04-25 17:28:28:689 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:28:689 ortp-warning-rtp_parse: timestamp jump in the future detected.
+packetsize: 941
+play_one_frame, decoded_size:2880, packet_size: 941, ts: 745920, have_more: 0
+packetsize: 907
+play_one_frame, decoded_size:2880, packet_size: 907, ts: 748800, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 907, ts: 751680, have_more: 0
+2020-04-25 17:28:28:870 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:28:871 ortp-warning-rtp_parse: timestamp jump in the future detected.
+packetsize: 933
+play_one_frame, decoded_size:2880, packet_size: 933, ts: 754560, have_more: 0
+packetsize: 953
+play_one_frame, decoded_size:2880, packet_size: 953, ts: 757440, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 953, ts: 760320, have_more: 0
+2020-04-25 17:28:29:041 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:29:041 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 953, ts: 763200, have_more: 0
+packetsize: 1093
+play_one_frame, decoded_size:2880, packet_size: 1093, ts: 766080, have_more: 0
+2020-04-25 17:28:29:164 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:29:164 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1093, ts: 768960, have_more: 0
+packetsize: 1042
+play_one_frame, decoded_size:2880, packet_size: 1042, ts: 771840, have_more: 0
+2020-04-25 17:28:29:287 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:29:287 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1042, ts: 774720, have_more: 0
+packetsize: 1061
+play_one_frame, decoded_size:2880, packet_size: 1061, ts: 777600, have_more: 0
+2020-04-25 17:28:29:404 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:29:404 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1061, ts: 780480, have_more: 0
+packetsize: 1001
+play_one_frame, decoded_size:2880, packet_size: 1001, ts: 783360, have_more: 0
+2020-04-25 17:28:29:521 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:29:521 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1001, ts: 786240, have_more: 0
+packetsize: 1091
+play_one_frame, decoded_size:2880, packet_size: 1091, ts: 789120, have_more: 0
+2020-04-25 17:28:29:649 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:29:649 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1091, ts: 792000, have_more: 0
+packetsize: 946
+play_one_frame, decoded_size:2880, packet_size: 946, ts: 794880, have_more: 0
+2020-04-25 17:28:29:767 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:29:767 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 946, ts: 797760, have_more: 0
+packetsize: 1086
+play_one_frame, decoded_size:2880, packet_size: 1086, ts: 800640, have_more: 0
+2020-04-25 17:28:29:889 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:29:889 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1086, ts: 803520, have_more: 0
+packetsize: 918
+play_one_frame, decoded_size:2880, packet_size: 918, ts: 806400, have_more: 0
+2020-04-25 17:28:30:007 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:30:007 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 918, ts: 809280, have_more: 0
+packetsize: 1135
+play_one_frame, decoded_size:2880, packet_size: 1135, ts: 812160, have_more: 0
+packetsize: 1332
+play_one_frame, decoded_size:2880, packet_size: 1332, ts: 815040, have_more: 0
+2020-04-25 17:28:30:188 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:30:188 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1332, ts: 817920, have_more: 0
+packetsize: 900
+play_one_frame, decoded_size:2880, packet_size: 900, ts: 820800, have_more: 0
+2020-04-25 17:28:30:310 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:30:310 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 900, ts: 823680, have_more: 0
+packetsize: 1347
+play_one_frame, decoded_size:2880, packet_size: 1347, ts: 826560, have_more: 0
+2020-04-25 17:28:30:423 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:30:423 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1347, ts: 829440, have_more: 0
+packetsize: 1309
+play_one_frame, decoded_size:2880, packet_size: 1309, ts: 832320, have_more: 0
+2020-04-25 17:28:30:550 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:30:550 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1309, ts: 835200, have_more: 0
+packetsize: 1388
+play_one_frame, decoded_size:2880, packet_size: 1388, ts: 838080, have_more: 0
+2020-04-25 17:28:30:665 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:30:665 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 1388, ts: 840960, have_more: 0
+packetsize: 905
+play_one_frame, decoded_size:2880, packet_size: 905, ts: 843840, have_more: 0
+2020-04-25 17:28:30:791 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:30:791 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 905, ts: 846720, have_more: 0
+packetsize: 1054
+play_one_frame, decoded_size:2880, packet_size: 1054, ts: 849600, have_more: 0
+2020-04-25 17:28:30:908 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:30:908 ortp-warning-rtp_parse: timestamp jump in the future detected.
+packetsize: 946
+play_one_frame, decoded_size:2880, packet_size: 946, ts: 852480, have_more: 0
+packetsize: 928
+play_one_frame, decoded_size:2880, packet_size: 928, ts: 855360, have_more: 0
+play_one_frame, decoded_size:2880, packet_size: 928, ts: 858240, have_more: 0
+2020-04-25 17:28:31:090 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:31:090 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 928, ts: 861120, have_more: 0
+packetsize: 855
+play_one_frame, decoded_size:2880, packet_size: 855, ts: 864000, have_more: 0
+2020-04-25 17:28:31:201 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:31:202 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 855, ts: 866880, have_more: 0
+packetsize: 915
+play_one_frame, decoded_size:2880, packet_size: 915, ts: 869760, have_more: 0
+2020-04-25 17:28:31:329 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:31:329 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 915, ts: 872640, have_more: 0
+packetsize: 849
+play_one_frame, decoded_size:2880, packet_size: 849, ts: 875520, have_more: 0
+2020-04-25 17:28:31:446 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:31:446 ortp-warning-rtp_parse: timestamp jump in the future detected.
+play_one_frame, decoded_size:2880, packet_size: 849, ts: 878400, have_more: 0
+packetsize: 1008
+play_one_frame, decoded_size:2880, packet_size: 1008, ts: 881280, have_more: 0
+2020-04-25 17:28:31:572 ortp-warning-rtp_parse: timestamp jump in the future detected.
+2020-04-25 17:28:31:572 ortp-warning-rtp_parse: timestamp jump in the future detected.

@@ -20,7 +20,9 @@
 #ifndef MISC_H
 #define MISC_H
 
+#ifdef LINUX
 int go_realtime(void);
 int go_daemon(const char *pid_file);
+#endif
 
 #endif
